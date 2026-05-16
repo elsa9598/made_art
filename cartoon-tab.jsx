@@ -156,7 +156,7 @@ function CartoonTab() {
           isCU
             ? " — SPLIT PANEL: left half uses this camera view, right half is an extreme close-up of the same scene's key emotional detail"
             : ""
-        }. Characters express a NEW emotion and pose distinct from the other panels. Use focus / depth-of-field, facial expression, body language, gesture, gaze and composition to drive the moral home. ZERO TEXT inside this panel and NO speech-balloon graphic at all — do NOT draw any speech bubble, thought bubble or callout shape (not even an empty one), and no captions or letters. Tell this story beat purely through the imagery.`
+        }. Characters express a NEW emotion and pose distinct from the other panels. Use focus / depth-of-field, facial expression, body language, gesture, gaze and composition to drive the moral home. Do NOT draw any speech balloon, thought bubble or dialogue callout, and no spoken / dialogue text — characters communicate WITHOUT spoken words. Diegetic graphic text that is a natural part of the scene (e.g. a shop signboard, a letter, a poster) IS allowed and encouraged WHEN it helps tell the Talmud story. Tell this story beat through the imagery.`
       );
     }
     lines.push("");
@@ -170,7 +170,7 @@ function CartoonTab() {
       `At the BOTTOM CENTER of the entire image (below or within the bottom panel area): write the one-line Talmud lesson in KOREAN — "${lesson}" — in a clean, readable Korean typeface, centered, with subtle weight.`
     );
     lines.push(
-      "ABSOLUTELY NO speech balloons or callout shapes anywhere inside the four panels — not even empty bubbles — and NO text of any kind inside the panels (no English, no Korean, no captions, no onomatopoeia, no signage text, no panel numbers). The ONLY text in the entire image is the Korean category label at the very top and the Korean one-line lesson at the very bottom, both OUTSIDE the panel artwork. Everything else is told purely through visuals — expression, body language, symbolism, color and composition."
+      "NO speech balloons, thought bubbles or dialogue callouts anywhere inside the four panels, and NO spoken / dialogue text — the story is told without characters' spoken words. Diegetic graphic text that naturally belongs in the scene (a shop signboard, a letter, a poster, etc.) MAY appear when it strengthens the Talmud story. Do NOT render any panel numbers. The only OVERLAY text is the Korean category label at the very top and the Korean one-line lesson at the very bottom, both OUTSIDE the panel artwork. Beyond that, communicate through visuals — expression, body language, symbolism, color and composition."
     );
     lines.push("");
 
