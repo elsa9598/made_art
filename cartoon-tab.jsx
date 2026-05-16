@@ -156,21 +156,21 @@ function CartoonTab() {
           isCU
             ? " — SPLIT PANEL: left half uses this camera view, right half is an extreme close-up of the same scene's key emotional detail"
             : ""
-        }. Characters express a NEW emotion and pose distinct from the other panels. Use focus / depth-of-field to drive the message home. Include a concise English speech bubble (max ~8 words) that pushes the story forward and lands the moral.`
+        }. Characters express a NEW emotion and pose distinct from the other panels. Use focus / depth-of-field, facial expression, body language, gesture, gaze and composition to drive the moral home. ZERO TEXT inside this panel and NO speech-balloon graphic at all — do NOT draw any speech bubble, thought bubble or callout shape (not even an empty one), and no captions or letters. Tell this story beat purely through the imagery.`
       );
     }
     lines.push("");
 
-    // Bubble & text overlays
+    // Korean text overlays — top/bottom only, never inside panels
     lines.push("[TEXT OVERLAYS]");
     lines.push(
-      `At the TOP CENTER of the entire image (above or within the top panel area, outside any speech bubble): write the category label in KOREAN — "${cat}" — in a clean, bold, slightly playful Korean typeface.`
+      `At the TOP CENTER of the entire image (above or within the top panel area, OUTSIDE the panel artwork): write the category label in KOREAN — "${cat}" — in a clean, bold, slightly playful Korean typeface.`
     );
     lines.push(
       `At the BOTTOM CENTER of the entire image (below or within the bottom panel area): write the one-line Talmud lesson in KOREAN — "${lesson}" — in a clean, readable Korean typeface, centered, with subtle weight.`
     );
     lines.push(
-      "All speech bubbles inside panels are in ENGLISH, kept short and conversational. Do not crowd the panels with text. Do NOT render any panel numbers anywhere."
+      "ABSOLUTELY NO speech balloons or callout shapes anywhere inside the four panels — not even empty bubbles — and NO text of any kind inside the panels (no English, no Korean, no captions, no onomatopoeia, no signage text, no panel numbers). The ONLY text in the entire image is the Korean category label at the very top and the Korean one-line lesson at the very bottom, both OUTSIDE the panel artwork. Everything else is told purely through visuals — expression, body language, symbolism, color and composition."
     );
     lines.push("");
 
