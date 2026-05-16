@@ -54,8 +54,10 @@ function CartoonTab() {
     ];
     // seeded shuffle
     const rng = (n) => {
+      // h(해시)가 음수면 % 결과도 음수 → 음수 인덱스로 셔플 배열이 깨짐.
+      // 절댓값을 취해 항상 0..n-1 범위의 인덱스를 보장한다.
       h = (h * 9301 + 49297) % 233280;
-      return Math.floor((h / 233280) * n);
+      return Math.floor((Math.abs(h) / 233280) * n);
     };
     const shuffled = [...pool];
     for (let i = shuffled.length - 1; i > 0; i--) {
