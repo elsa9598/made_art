@@ -176,7 +176,14 @@ function MusicTab() {
 
     lines.push("");
     lines.push(
-      "[AUTO-DETECT FROM IMAGE + SUBJECT] Choose the instrument set, tempo (BPM), and key (major / minor) that best fit both the mood of the attached image AND the subject above. Output a full-length song that matches all directives above."
+      "[LENGTH] Target total duration is approximately 3 minutes (around 2:50–3:10). Structure the arrangement — intro, verses, chorus/hook, bridge, and outro — to fit naturally within this length, without abrupt cuts or unfinished phrases."
+    );
+    lines.push(
+      "[HARMONY — STRICT] ABSOLUTELY NO dissonant or clashing tone combinations. Do NOT use atonal clusters, harsh microtonal beating, accidentals that fight the established key, or simultaneous notes that produce unpleasant minor-2nd / tritone collisions on strong beats. Every voicing — lead vocal, backing chorus, and all instruments — must stay consonant within the chosen key, blend smoothly, and resolve cleanly. Prioritize emotional clarity and a pleasant, well-tuned sound over experimental dissonance."
+    );
+    lines.push("");
+    lines.push(
+      "[AUTO-DETECT FROM IMAGE + SUBJECT] Choose the instrument set, tempo (BPM), and key (major / minor) that best fit both the mood of the attached image AND the subject above. Output a ~3-minute song that matches all directives above."
     );
 
     return lines.join("\n");
