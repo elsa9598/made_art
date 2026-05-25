@@ -214,22 +214,39 @@ function MusicTab() {
 
         const availableGenres = D.GENRE.map((g) => g.ko).join(", ");
         
-        let promptText = `당신은 음악 장르 전문가입니다. 아래 제공된 정보를 종합하여 가장 잘 어울리는 음악 장르 딱 3개를 골라주세요.\n\n`;
+        let promptText = `당신은 창의적이고 감각적인 음악 장르 전문가입니다.
+항상 뻔한 장르만 고르지 말고, 100여 개의 장르 목록 중 상황에 맞는 다양하고 독창적인 장르를 발굴하여 제안해야 합니다.
+
+아래 제공된 정보를 바탕으로 가장 잘 어울리는 음악 장르 딱 3개를 신중하게 골라주세요.
+선택 기준의 우선순위는 다음과 같습니다:
+1순위 (가장 중요): [주제] - 곡의 핵심 내용과 방향성입니다. 주제의 메시지와 가장 잘 맞는 장르를 우선적으로 고려하세요.
+2순위: [선택된 테마 분위기] 및 [참고 정보] - 주제를 뒷받침하는 감성적, 시각적 참고 자료입니다.
+
+`;
         
         if (subject.trim()) {
-          promptText += `[주제]\n${subject.trim()}\n\n`;
+          promptText += `[주제 (1순위)]\n${subject.trim()}\n\n`;
+        } else {
+          promptText += `[주제 (1순위)]\n(입력된 주제가 없습니다. 2순위 정보를 바탕으로 선택하세요.)\n\n`;
+        }
+        
+        let refInfo = "";
+        if (selectedThemes.length > 0) {
+          refInfo += `- 선택된 테마 분위기: ${selectedThemes.map((t) => t.desc).join(" / ")}\n`;
         }
         if (imageHint.trim()) {
-          promptText += `[이미지 분위기 추가 설명]\n${imageHint.trim()}\n\n`;
+          refInfo += `- 이미지 분위기 추가 설명: ${imageHint.trim()}\n`;
         }
         if (imageFile) {
-          promptText += `[참고 이미지 파일명]\n${imageFile.name}\n\n`;
+          refInfo += `- 참고 이미지 파일명: ${imageFile.name}\n`;
         }
         
-        promptText += `[선택된 테마 분위기]\n${selectedThemes.map((t) => "- " + t.desc).join("\n")}\n\n`;
+        if (refInfo) {
+          promptText += `[참고 정보 (2순위)]\n${refInfo}\n`;
+        }
         
         promptText += `[장르 목록]\n${availableGenres}\n\n`;
-        promptText += `반드시 위 장르 목록에 있는 정확한 단어로만 3개를 골라 JSON 배열 형태로 출력하세요. 다른 말은 절대 하지 마세요.\n예시: ["팝", "인디 포크", "피아노 솔로"]`;
+        promptText += `반드시 위 장르 목록에 있는 정확한 단어로만 3개를 골라 JSON 배열 형태로 출력하세요. 다른 말은 절대 하지 마세요.\n예시: ["신스웨이브", "인디 포크", "피아노 솔로"]`;
 
         const res = await fetch("http://localhost:11434/api/generate", {
           method: "POST",
@@ -238,7 +255,11 @@ function MusicTab() {
             model: "qwen2.5:14b",
             prompt: promptText,
             stream: false,
-            format: "json"
+            format: "json",
+            options: {
+              temperature: 0.9,
+              top_p: 0.9
+            }
           }),
         });
 
