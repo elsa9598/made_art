@@ -213,15 +213,23 @@ function MusicTab() {
         });
 
         const availableGenres = D.GENRE.map((g) => g.ko).join(", ");
-        const promptText = `당신은 음악 장르 전문가입니다. 다음은 사용자가 선택한 음악의 테마 설명입니다:
-${selectedThemes.map((t) => "- " + t.desc).join("\n")}
-
-위 테마에 가장 잘 어울리는 음악 장르 딱 3개를 아래 목록에서 골라주세요.
-[장르 목록]
-${availableGenres}
-
-반드시 위 장르 목록에 있는 정확한 단어로만 3개를 골라 JSON 배열 형태로 출력하세요. 다른 말은 절대 하지 마세요.
-예시: ["팝", "인디 포크", "피아노 솔로"]`;
+        
+        let promptText = `당신은 음악 장르 전문가입니다. 아래 제공된 정보를 종합하여 가장 잘 어울리는 음악 장르 딱 3개를 골라주세요.\n\n`;
+        
+        if (subject.trim()) {
+          promptText += `[주제]\n${subject.trim()}\n\n`;
+        }
+        if (imageHint.trim()) {
+          promptText += `[이미지 분위기 추가 설명]\n${imageHint.trim()}\n\n`;
+        }
+        if (imageFile) {
+          promptText += `[참고 이미지 파일명]\n${imageFile.name}\n\n`;
+        }
+        
+        promptText += `[선택된 테마 분위기]\n${selectedThemes.map((t) => "- " + t.desc).join("\n")}\n\n`;
+        
+        promptText += `[장르 목록]\n${availableGenres}\n\n`;
+        promptText += `반드시 위 장르 목록에 있는 정확한 단어로만 3개를 골라 JSON 배열 형태로 출력하세요. 다른 말은 절대 하지 마세요.\n예시: ["팝", "인디 포크", "피아노 솔로"]`;
 
         const res = await fetch("http://localhost:11434/api/generate", {
           method: "POST",
@@ -261,7 +269,7 @@ ${availableGenres}
 
     const timer = setTimeout(fetchGenres, 1000);
     return () => clearTimeout(timer);
-  }, [themePreset]);
+  }, [themePreset, subject, imageHint, imageFile]);
 
   const navItems = [
     { id: "m-image", title: "이미지 + 주제", count: (imageFile ? 1 : 0) + (subject.trim() ? 1 : 0) || null },
