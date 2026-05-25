@@ -323,7 +323,6 @@ function PromptOutput({ text, filename = "prompt.txt" }) {
 
 // 메인 탭 컨테이너
 function App() {
-  const [tab, setTab] = useState("image"); // image | music | cartoon
   const [tweak, setTweak] = useTweaks(
     /*EDITMODE-BEGIN*/ {
       theme: "cream",
@@ -341,50 +340,25 @@ function App() {
 
   return (
     <div className="app">
-      <TopBar tab={tab} onTab={setTab} />
+      <TopBar />
       <main className="main-wrap">
-        {tab === "image" && <ImageTab />}
-        {tab === "music" && <MusicTab />}
-        {tab === "cartoon" && <CartoonTab />}
+        <MusicTab />
       </main>
       <TweaksUI tweak={tweak} setTweak={setTweak} />
     </div>
   );
 }
 
-function TopBar({ tab, onTab }) {
+function TopBar() {
   return (
     <header className="topbar">
       <div className="topbar-brand">
         <span className="logo">🥬</span>
         <div>
           <div className="topbar-title">오둥이 하루</div>
-          <div className="topbar-sub">우리집 식구들을 위한 프롬프트 빌더</div>
+          <div className="topbar-sub">우리집 식구들을 위한 음악 생성 프롬프트 빌더</div>
         </div>
       </div>
-      <nav className="tabs">
-        <button
-          className={"tab" + (tab === "image" ? " on" : "")}
-          onClick={() => onTab("image")}
-        >
-          <span className="tab-num">01</span>
-          <span className="tab-name">그림 생성</span>
-        </button>
-        <button
-          className={"tab" + (tab === "music" ? " on" : "")}
-          onClick={() => onTab("music")}
-        >
-          <span className="tab-num">02</span>
-          <span className="tab-name">음악 생성</span>
-        </button>
-        <button
-          className={"tab" + (tab === "cartoon" ? " on" : "")}
-          onClick={() => onTab("cartoon")}
-        >
-          <span className="tab-num">03</span>
-          <span className="tab-name">4컷 카툰</span>
-        </button>
-      </nav>
     </header>
   );
 }
