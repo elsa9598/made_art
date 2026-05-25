@@ -178,9 +178,6 @@ function MusicTab() {
   const [genre, setGenre] = useStateM([]);
   const [genreCustom, setGenreCustom] = useStateM([]);
 
-  const [mood, setMood] = useStateM([]);
-  const [moodCustom, setMoodCustom] = useStateM([]);
-
   const [vocal, setVocal] = useStateM([]);
   const [chorus, setChorus] = useStateM(["코러스 없음"]);
   const [lang, setLang] = useStateM(["한글 가사"]);
@@ -296,7 +293,6 @@ function MusicTab() {
     { id: "m-image", title: "이미지 + 주제", count: (imageFile ? 1 : 0) + (subject.trim() ? 1 : 0) || null },
     { id: "m-theme", title: "테마 프리셋", count: themePreset.length || null },
     { id: "m-genre", title: "장르", count: genre.length || null },
-    { id: "m-mood", title: "분위기", count: mood.length || null },
     { id: "m-vocal", title: "보컬", count: vocal.length || null },
     { id: "m-chorus", title: "코러스", count: null },
     { id: "m-lyric", title: "가사 언어", count: null },
@@ -360,10 +356,6 @@ function MusicTab() {
       const en = uniq(genre.map((k) => labelToEn(D.GENRE, k)));
       lines.push("[GENRE] " + en.join(", "));
     }
-    if (mood.length) {
-      const en = uniq(mood.map((k) => labelToEn(D.MOOD, k)));
-      lines.push("[MOOD] " + en.join(", "));
-    }
 
     // Vocal includes lyric language hint
     if (vocal.length) {
@@ -401,7 +393,7 @@ function MusicTab() {
     );
 
     return lines.join("\n");
-  }, [genre, mood, vocal, chorus, lang, humming, extra, imageHint, subject, imageFile, themePreset]);
+  }, [genre, vocal, chorus, lang, humming, extra, imageHint, subject, imageFile, themePreset]);
 
   const reset = () => {
     if (!confirm("선택한 항목을 모두 초기화할까요?")) return;
@@ -410,8 +402,6 @@ function MusicTab() {
     setThemePreset([]);
     setGenre([]);
     setGenreCustom([]);
-    setMood([]);
-    setMoodCustom([]);
     setVocal([]);
     setChorus(["코러스 없음"]);
     setLang(["한글 가사"]);
@@ -511,16 +501,6 @@ function MusicTab() {
           />
         </Section>
 
-        <Section id="m-mood" title="분위기" hint={`${D.MOOD.length}개 + 직접 입력 · 복수 가능`} badge={mood.length}>
-          <ChipPicker
-            list={D.MOOD}
-            value={mood}
-            onChange={setMood}
-            customs={moodCustom}
-            onAddCustom={(v) => setMoodCustom(uniq([...moodCustom, v]))}
-          />
-        </Section>
-
         <Section
           id="m-auto"
           title="악기 · 템포 · 키 (자동)"
@@ -604,7 +584,7 @@ function MusicTab() {
               전체 초기화
             </button>
             <div className="final-summary">
-              테마 {themePreset.length} · 장르 {genre.length} · 분위기 {mood.length} · 보컬 {vocal.length} · 코러스 {chorus[0] || "—"} · 가사 {lang[0] || "—"}
+              테마 {themePreset.length} · 장르 {genre.length} · 보컬 {vocal.length} · 코러스 {chorus[0] || "—"} · 가사 {lang[0] || "—"}
             </div>
           </div>
           <PromptOutput text={prompt} filename="odungi-music-prompt.txt" />
