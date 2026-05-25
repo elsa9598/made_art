@@ -1,5 +1,5 @@
 // 음악 생성 탭
-const { useState: useStateM, useMemo: useMemoM } = React;
+const { useState: useStateM, useMemo: useMemoM, useEffect: useEffectM } = React;
 
 // ── 테마 프리셋 데이터 ──
 const THEME_PRESETS = [
@@ -189,12 +189,79 @@ function MusicTab() {
   const [extra, setExtra] = useStateM("");
 
   const [imageHint, setImageHint] = useStateM(""); // 첨부 이미지의 분위기 묘사 (사용자 입력)
+  const [isGeneratingGenre, setIsGeneratingGenre] = useStateM(false);
 
   const togglePreset = (subId) => {
     setThemePreset((prev) =>
       prev.includes(subId) ? prev.filter((x) => x !== subId) : [...prev, subId]
     );
   };
+
+  useEffectM(() => {
+    if (themePreset.length === 0) return;
+
+    const fetchGenres = async () => {
+      setIsGeneratingGenre(true);
+      try {
+        const selectedThemes = [];
+        THEME_PRESETS.forEach((cat) => {
+          cat.subs.forEach((sub) => {
+            if (themePreset.includes(sub.id)) {
+              selectedThemes.push(sub);
+            }
+          });
+        });
+
+        const availableGenres = D.GENRE.map((g) => g.ko).join(", ");
+        const promptText = `당신은 음악 장르 전문가입니다. 다음은 사용자가 선택한 음악의 테마 설명입니다:
+${selectedThemes.map((t) => "- " + t.desc).join("\n")}
+
+위 테마에 가장 잘 어울리는 음악 장르 딱 3개를 아래 목록에서 골라주세요.
+[장르 목록]
+${availableGenres}
+
+반드시 위 장르 목록에 있는 정확한 단어로만 3개를 골라 JSON 배열 형태로 출력하세요. 다른 말은 절대 하지 마세요.
+예시: ["팝", "인디 포크", "피아노 솔로"]`;
+
+        const res = await fetch("http://localhost:11434/api/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            model: "qwen2.5:14b",
+            prompt: promptText,
+            stream: false,
+            format: "json"
+          }),
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          let parsed = [];
+          try {
+            parsed = JSON.parse(data.response.trim());
+          } catch (e) {
+            const match = data.response.trim().match(/\[(.*?)\]/);
+            if (match) {
+              parsed = JSON.parse("[" + match[1] + "]");
+            }
+          }
+          if (Array.isArray(parsed)) {
+            const validGenres = parsed.filter((g) => D.GENRE.some((x) => x.ko === g)).slice(0, 3);
+            if (validGenres.length > 0) {
+              setGenre(validGenres);
+            }
+          }
+        }
+      } catch (err) {
+        console.error("Genre recommendation failed:", err);
+      } finally {
+        setIsGeneratingGenre(false);
+      }
+    };
+
+    const timer = setTimeout(fetchGenres, 1000);
+    return () => clearTimeout(timer);
+  }, [themePreset]);
 
   const navItems = [
     { id: "m-image", title: "이미지 + 주제", count: (imageFile ? 1 : 0) + (subject.trim() ? 1 : 0) || null },
@@ -401,6 +468,11 @@ function MusicTab() {
         </Section>
 
         <Section id="m-genre" title="장르" hint={`${D.GENRE.length}개 + 직접 입력 · 복수 가능`} badge={genre.length}>
+          {isGeneratingGenre && (
+            <div className="hint" style={{ color: 'var(--accent)', fontWeight: 600, marginTop: '-6px', marginBottom: '8px' }}>
+              ✨ AI가 어울리는 장르를 고민하고 있어요...
+            </div>
+          )}
           <ChipPicker
             list={D.GENRE}
             value={genre}
