@@ -98,80 +98,7 @@ const THEME_PRESETS = [
   }
 ];
 
-// 이미지 첨부 (미리보기)
-function ImageDrop({ file, onChange }) {
-  const inputRef = React.useRef(null);
-  const [drag, setDrag] = React.useState(false);
-
-  const handleFile = (f) => {
-    if (!f || !f.type.startsWith("image/")) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      onChange({ name: f.name, dataUrl: reader.result, size: f.size });
-    };
-    reader.readAsDataURL(f);
-  };
-
-  return (
-    <div
-      className={"image-drop" + (drag ? " drag" : "") + (file ? " has" : "")}
-      onDragOver={(e) => {
-        e.preventDefault();
-        setDrag(true);
-      }}
-      onDragLeave={() => setDrag(false)}
-      onDrop={(e) => {
-        e.preventDefault();
-        setDrag(false);
-        const f = e.dataTransfer.files[0];
-        handleFile(f);
-      }}
-      onClick={() => inputRef.current?.click()}
-    >
-      <input
-        type="file"
-        accept="image/*"
-        ref={inputRef}
-        style={{ display: "none" }}
-        onChange={(e) => handleFile(e.target.files[0])}
-      />
-      {file ? (
-        <>
-          <img src={file.dataUrl} alt={file.name} className="image-preview" />
-          <div className="image-meta">
-            <div className="image-name">📎 {file.name}</div>
-            <div className="image-size">
-              {(file.size / 1024).toFixed(1)} KB
-            </div>
-            <button
-              type="button"
-              className="btn-ghost image-clear"
-              onClick={(e) => {
-                e.stopPropagation();
-                onChange(null);
-              }}
-            >
-              × 제거
-            </button>
-          </div>
-        </>
-      ) : (
-        <div className="image-empty">
-          <div className="image-icon">🖼</div>
-          <div className="image-cta">
-            이미지를 드래그하거나 클릭해서 첨부
-          </div>
-          <div className="image-sub">
-            첨부한 이미지는 생성 AI에게도 함께 붙여넣어 주세요
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
 function MusicTab() {
-  const [imageFile, setImageFile] = useStateM(null); // {name, dataUrl}
   const [subject, setSubject] = useStateM("");
   const [themePreset, setThemePreset] = useStateM([]); // 선택된 서브 프리셋 id 배열
 
@@ -271,10 +198,7 @@ Key: C Major`;
         refInfo += `- 선택된 테마 분위기: ${selectedThemes.map((t) => t.desc).join(" / ")}\n`;
       }
       if (imageHint.trim()) {
-        refInfo += `- 이미지 분위기 추가 설명: ${imageHint.trim()}\n`;
-      }
-      if (imageFile) {
-        refInfo += `- 참고 이미지 파일명: ${imageFile.name}\n`;
+        refInfo += `- 분위기 추가 설명: ${imageHint.trim()}\n`;
       }
       
       if (refInfo) {
@@ -346,7 +270,7 @@ Key: C Major`;
   };
 
   const navItems = [
-    { id: "m-image", title: "이미지 + 주제", count: (imageFile ? 1 : 0) + (subject.trim() ? 1 : 0) || null },
+    { id: "m-subject", title: "주제 및 분위기", count: subject.trim() ? 1 : null },
     { id: "m-theme", title: "테마 프리셋", count: themePreset.length || null },
     { id: "m-genre", title: "장르", count: genre.length || null },
     { id: "m-vocal", title: "보컬", count: vocal.length || null },
@@ -357,7 +281,7 @@ Key: C Major`;
     { id: "m-final", title: "최종 확정", count: null },
   ];
 
-  const [active, setActive] = useStateM("m-image");
+  const [active, setActive] = useStateM("m-subject");
   const jump = (id) => {
     setActive(id);
     const el = document.getElementById(id);
@@ -390,24 +314,13 @@ Key: C Major`;
       lines.push("");
     }
 
-    lines.push("[REFERENCE IMAGE]");
-    if (imageFile) {
-      lines.push(
-        `An image is attached (filename: ${imageFile.name}). Analyze its mood, color palette, lighting, composition, and subject matter.`
-      );
-    } else {
-      lines.push(
-        "A reference image will be attached separately. Analyze its mood, color palette, lighting, composition, and subject matter."
-      );
-    }
-
     if (autoDetails.trim()) {
       lines.push("");
       lines.push("[INSTRUMENTS / TEMPO / KEY]");
       lines.push(autoDetails.trim());
     } else {
       lines.push(
-        "From the attached image AND the subject above, automatically derive: the instrument set, the tempo (BPM), and the musical key (major / minor). Pick instruments and harmony that emotionally match BOTH the image and the subject."
+        "From the subject and thematic direction above, automatically derive: the instrument set, the tempo (BPM), and the musical key (major / minor). Pick instruments and harmony that emotionally match the subject."
       );
     }
 
@@ -459,16 +372,15 @@ Key: C Major`;
       );
     } else {
       lines.push(
-        "[AUTO-DETECT FROM IMAGE + SUBJECT] Choose the instrument set, tempo (BPM), and key (major / minor) that best fit both the mood of the attached image AND the subject above. Output a ~3-minute song that matches all directives above."
+        "[AUTO-DETECT FROM SUBJECT] Choose the instrument set, tempo (BPM), and key (major / minor) that best fit the mood of the subject above. Output a ~3-minute song that matches all directives above."
       );
     }
 
     return lines.join("\n");
-  }, [genre, vocal, chorus, lang, humming, extra, imageHint, autoDetails, subject, imageFile, themePreset]);
+  }, [genre, vocal, chorus, lang, humming, extra, imageHint, autoDetails, subject, themePreset]);
 
   const reset = () => {
     if (!confirm("선택한 항목을 모두 초기화할까요?")) return;
-    setImageFile(null);
     setSubject("");
     setThemePreset([]);
     setGenre([]);
@@ -495,14 +407,10 @@ Key: C Major`;
         </div>
 
         <Section
-          id="m-image"
-          title="이미지 첨부 + 주제"
-          hint="이미지는 미리보기용 · 주제는 곡의 큰 방향. 둘을 합쳐 악기·템포·키가 자동 결정됩니다"
+          id="m-subject"
+          title="주제 및 분위기 설명"
+          hint="곡의 핵심 주제와 전반적인 분위기를 적어주세요. AI가 장르와 악기를 추천할 때 활용합니다."
         >
-          <ImageDrop
-            file={imageFile}
-            onChange={setImageFile}
-          />
           <div className="subject-row">
             <label className="subject-label">🎯 주제 (한 줄)</label>
             <input
@@ -511,6 +419,16 @@ Key: C Major`;
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
               placeholder="예: 비 오는 날 창가의 강아지 / 첫 눈 내린 아침 산책 / 늦은 밤 우리집 식탁"
+            />
+          </div>
+          <div className="subject-row" style={{ marginTop: '16px' }}>
+            <label className="subject-label">✨ 분위기 추가 설명</label>
+            <textarea
+              className="subject-input"
+              value={imageHint}
+              onChange={(e) => setImageHint(e.target.value)}
+              placeholder="곡의 분위기, 느낌, 배경 등을 자유롭게 묘사해주세요. (예: 따뜻한 가을 햇살, 잔잔한 호수)"
+              rows={2}
             />
           </div>
         </Section>
@@ -606,20 +524,6 @@ Key: C Major`;
               value={autoDetails}
               onChange={(e) => setAutoDetails(e.target.value)}
               rows={4}
-              style={{ marginBottom: '12px' }}
-            />
-            <div className="auto-row">
-              <span className="auto-note" style={{ marginLeft: 0 }}>
-                {imageFile ? "✓ 이미지 첨부됨" : "이미지 첨부 대기"}
-                {" · "}
-                {subject.trim() ? "✓ 주제 입력됨" : "주제 입력 대기"}
-              </span>
-            </div>
-            <textarea
-              placeholder="이미지의 분위기를 추가로 설명 (예: 따뜻한 가을 햇살, 잔잔한 호수)"
-              value={imageHint}
-              onChange={(e) => setImageHint(e.target.value)}
-              rows={2}
             />
           </div>
         </Section>
