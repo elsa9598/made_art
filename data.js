@@ -1120,6 +1120,30 @@ window.ODUNGI_DATA = (function () {
   // ─────────────────────────────────────────────────────────
   // 탈무드 카테고리 × 스토리 (각 100개 — 시드+조합 생성)
   // 카테고리 ➜ 영문 + 시드 스토리들
+  
+  const NATURE_SOUNDS = [
+    pair('바람소리', 'wind sounds'),
+    pair('빗소리', 'rain sounds'),
+    pair('계곡물', 'stream water'),
+    pair('파도', 'ocean waves'),
+    pair('모랫소리', 'sand sounds'),
+    pair('새소리', 'birdsong'),
+    pair('장작 타는 소리', 'crackling fire'),
+    pair('숲 ambience', 'forest ambience'),
+    pair('아이들 웃음소리', 'children laughing'),
+    pair('고양이 우는 소리', 'cat meowing'),
+    pair('개가 짖는 소리', 'dog barking'),
+    pair('귀뚜라미 소리', 'crickets chirping'),
+    pair('매미소리', 'cicadas buzzing'),
+    pair('부엉이 소리', 'owl hooting'),
+    pair('까마귀 소리', 'crow cawing'),
+    pair('뻐꾹이 소리', 'cuckoo singing'),
+    pair('휘파람 소리', 'whistling'),
+    pair('여성의 허밍소리', 'female humming'),
+    pair('실로폰 소리', 'xylophone'),
+    pair('처마에서 바람에 흔들리는 종소리', 'wind chimes in the breeze')
+  ];
+
   const TALMUD_CATEGORIES = {
     "지혜": {
       en: "wisdom",
