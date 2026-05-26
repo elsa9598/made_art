@@ -252,9 +252,8 @@ function MusicTab() {
             model: "qwen2.5:14b",
             prompt: promptText,
             stream: false,
-            format: "json",
             options: {
-              temperature: 0.9,
+              temperature: 0.8,
               top_p: 0.9
             }
           }),
@@ -262,20 +261,42 @@ function MusicTab() {
 
         if (res.ok) {
           const data = await res.json();
-          let parsed = [];
+          const responseStr = data.response.trim();
+          let parsed = null;
+          
           try {
-            parsed = JSON.parse(data.response.trim());
+            parsed = JSON.parse(responseStr);
           } catch (e) {
-            const match = data.response.trim().match(/\[(.*?)\]/);
+            // 정규식으로 대괄호 영역 추출 (멀티라인 대응)
+            const match = responseStr.match(/\[[\s\S]*?\]/);
             if (match) {
-              parsed = JSON.parse("[" + match[1] + "]");
+              try {
+                parsed = JSON.parse(match[0]);
+              } catch (err) {}
             }
           }
+          
+          let arr = null;
           if (Array.isArray(parsed)) {
-            const validGenres = parsed.filter((g) => D.GENRE.some((x) => x.ko === g)).slice(0, 3);
+            arr = parsed;
+          } else if (parsed && typeof parsed === 'object') {
+            for (const key in parsed) {
+              if (Array.isArray(parsed[key])) {
+                arr = parsed[key];
+                break;
+              }
+            }
+          }
+
+          if (arr) {
+            const validGenres = arr.filter((g) => D.GENRE.some((x) => x.ko === g)).slice(0, 3);
             if (validGenres.length > 0) {
               setGenre(validGenres);
+            } else {
+              console.warn("No valid genres found in AI response array:", arr);
             }
+          } else {
+             console.warn("Could not find an array in AI response:", responseStr);
           }
         }
       } catch (err) {
