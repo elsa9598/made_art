@@ -236,24 +236,21 @@ Key: C Major`;
     );
   };
 
-  useEffectM(() => {
-    if (themePreset.length === 0) return;
-
-    const fetchGenres = async () => {
-      setIsGeneratingGenre(true);
-      try {
-        const selectedThemes = [];
-        THEME_PRESETS.forEach((cat) => {
-          cat.subs.forEach((sub) => {
-            if (themePreset.includes(sub.id)) {
-              selectedThemes.push(sub);
-            }
-          });
+  const fetchGenres = async (setDraft) => {
+    setIsGeneratingGenre(true);
+    try {
+      const selectedThemes = [];
+      THEME_PRESETS.forEach((cat) => {
+        cat.subs.forEach((sub) => {
+          if (themePreset.includes(sub.id)) {
+            selectedThemes.push(sub);
+          }
         });
+      });
 
-        const availableGenres = D.GENRE.map((g) => g.ko).join(", ");
-        
-        let promptText = `당신은 창의적이고 감각적인 음악 장르 전문가입니다.
+      const availableGenres = D.GENRE.map((g) => g.ko).join(", ");
+      
+      let promptText = `당신은 창의적이고 감각적인 음악 장르 전문가입니다.
 항상 뻔한 장르만 고르지 말고, 100여 개의 장르 목록 중 상황에 맞는 다양하고 독창적인 장르를 발굴하여 제안해야 합니다.
 
 아래 제공된 정보를 바탕으로 가장 잘 어울리는 음악 장르 딱 3개를 신중하게 골라주세요.
@@ -262,95 +259,91 @@ Key: C Major`;
 2순위: [선택된 테마 분위기] 및 [참고 정보] - 주제를 뒷받침하는 감성적, 시각적 참고 자료입니다.
 
 `;
-        
-        if (subject.trim()) {
-          promptText += `[주제 (1순위)]\n${subject.trim()}\n\n`;
-        } else {
-          promptText += `[주제 (1순위)]\n(입력된 주제가 없습니다. 2순위 정보를 바탕으로 선택하세요.)\n\n`;
-        }
-        
-        let refInfo = "";
-        if (selectedThemes.length > 0) {
-          refInfo += `- 선택된 테마 분위기: ${selectedThemes.map((t) => t.desc).join(" / ")}\n`;
-        }
-        if (imageHint.trim()) {
-          refInfo += `- 이미지 분위기 추가 설명: ${imageHint.trim()}\n`;
-        }
-        if (imageFile) {
-          refInfo += `- 참고 이미지 파일명: ${imageFile.name}\n`;
-        }
-        
-        if (refInfo) {
-          promptText += `[참고 정보 (2순위)]\n${refInfo}\n`;
-        }
-        
-        promptText += `[장르 목록]\n${availableGenres}\n\n`;
-        promptText += `반드시 위 장르 목록에 있는 정확한 단어로만 3개를 골라 JSON 배열 형태로 출력하세요. 다른 말은 절대 하지 마세요.\n예시: ["신스웨이브", "인디 포크", "피아노 솔로"]`;
-
-        const res = await fetch("http://localhost:11434/api/generate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            model: "qwen2.5:14b",
-            prompt: promptText,
-            stream: false,
-            options: {
-              temperature: 0.8,
-              top_p: 0.9
-            }
-          }),
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          const responseStr = data.response.trim();
-          let parsed = null;
-          
-          try {
-            parsed = JSON.parse(responseStr);
-          } catch (e) {
-            // 정규식으로 대괄호 영역 추출 (멀티라인 대응)
-            const match = responseStr.match(/\[[\s\S]*?\]/);
-            if (match) {
-              try {
-                parsed = JSON.parse(match[0]);
-              } catch (err) {}
-            }
-          }
-          
-          let arr = null;
-          if (Array.isArray(parsed)) {
-            arr = parsed;
-          } else if (parsed && typeof parsed === 'object') {
-            for (const key in parsed) {
-              if (Array.isArray(parsed[key])) {
-                arr = parsed[key];
-                break;
-              }
-            }
-          }
-
-          if (arr) {
-            const validGenres = arr.filter((g) => D.GENRE.some((x) => x.ko === g)).slice(0, 3);
-            if (validGenres.length > 0) {
-              setGenre(validGenres);
-            } else {
-              console.warn("No valid genres found in AI response array:", arr);
-            }
-          } else {
-             console.warn("Could not find an array in AI response:", responseStr);
-          }
-        }
-      } catch (err) {
-        console.error("Genre recommendation failed:", err);
-      } finally {
-        setIsGeneratingGenre(false);
+      
+      if (subject.trim()) {
+        promptText += `[주제 (1순위)]\n${subject.trim()}\n\n`;
+      } else {
+        promptText += `[주제 (1순위)]\n(입력된 주제가 없습니다. 2순위 정보를 바탕으로 선택하세요.)\n\n`;
       }
-    };
+      
+      let refInfo = "";
+      if (selectedThemes.length > 0) {
+        refInfo += `- 선택된 테마 분위기: ${selectedThemes.map((t) => t.desc).join(" / ")}\n`;
+      }
+      if (imageHint.trim()) {
+        refInfo += `- 이미지 분위기 추가 설명: ${imageHint.trim()}\n`;
+      }
+      if (imageFile) {
+        refInfo += `- 참고 이미지 파일명: ${imageFile.name}\n`;
+      }
+      
+      if (refInfo) {
+        promptText += `[참고 정보 (2순위)]\n${refInfo}\n`;
+      }
+      
+      promptText += `[장르 목록]\n${availableGenres}\n\n`;
+      promptText += `반드시 위 장르 목록에 있는 정확한 단어로만 3개를 골라 JSON 배열 형태로 출력하세요. 다른 말은 절대 하지 마세요.\n예시: ["신스웨이브", "인디 포크", "피아노 솔로"]`;
 
-    const timer = setTimeout(fetchGenres, 1000);
-    return () => clearTimeout(timer);
-  }, [themePreset, subject, imageHint, imageFile]);
+      const res = await fetch("http://localhost:11434/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "qwen2.5:14b",
+          prompt: promptText,
+          stream: false,
+          options: {
+            temperature: 0.8,
+            top_p: 0.9
+          }
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const responseStr = data.response.trim();
+        let parsed = null;
+        
+        try {
+          parsed = JSON.parse(responseStr);
+        } catch (e) {
+          // 정규식으로 대괄호 영역 추출 (멀티라인 대응)
+          const match = responseStr.match(/\[[\s\S]*?\]/);
+          if (match) {
+            try {
+              parsed = JSON.parse(match[0]);
+            } catch (err) {}
+          }
+        }
+        
+        let arr = null;
+        if (Array.isArray(parsed)) {
+          arr = parsed;
+        } else if (parsed && typeof parsed === 'object') {
+          for (const key in parsed) {
+            if (Array.isArray(parsed[key])) {
+              arr = parsed[key];
+              break;
+            }
+          }
+        }
+
+        if (arr) {
+          const validGenres = arr.filter((g) => D.GENRE.some((x) => x.ko === g)).slice(0, 3);
+          if (validGenres.length > 0) {
+            setDraft(validGenres.join(", "));
+          } else {
+            console.warn("No valid genres found in AI response array:", arr);
+          }
+        } else {
+           console.warn("Could not find an array in AI response:", responseStr);
+        }
+      }
+    } catch (err) {
+      console.error("Genre recommendation failed:", err);
+    } finally {
+      setIsGeneratingGenre(false);
+    }
+  };
 
   const navItems = [
     { id: "m-image", title: "이미지 + 주제", count: (imageFile ? 1 : 0) + (subject.trim() ? 1 : 0) || null },
@@ -566,17 +559,23 @@ Key: C Major`;
         </Section>
 
         <Section id="m-genre" title="장르" hint={`${D.GENRE.length}개 + 직접 입력 · 복수 가능`} badge={genre.length}>
-          {isGeneratingGenre && (
-            <div className="hint" style={{ color: 'var(--accent)', fontWeight: 600, marginTop: '-6px', marginBottom: '8px' }}>
-              ✨ AI가 어울리는 장르를 고민하고 있어요...
-            </div>
-          )}
           <ChipPicker
             list={D.GENRE}
             value={genre}
             onChange={setGenre}
             customs={genreCustom}
             onAddCustom={(v) => setGenreCustom(uniq([...genreCustom, v]))}
+            aiButton={(setDraft) => (
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={() => fetchGenres(setDraft)}
+                disabled={isGeneratingGenre}
+                style={{ marginRight: '8px', padding: '0 12px', fontSize: '13px', borderRadius: '6px' }}
+              >
+                {isGeneratingGenre ? "⏳ 고민 중..." : "✨ AI 장르 추천"}
+              </button>
+            )}
           />
         </Section>
 

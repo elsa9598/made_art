@@ -169,6 +169,7 @@ function ChipPicker({
         )}
       </div>
       <div className="chip-custom">
+        {aiButton && aiButton(setDraft)}
         <input
           type="text"
           placeholder="직접 입력 후 Enter (선택지에 추가)"
