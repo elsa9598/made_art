@@ -186,7 +186,49 @@ function MusicTab() {
   const [extra, setExtra] = useStateM("");
 
   const [imageHint, setImageHint] = useStateM(""); // 첨부 이미지의 분위기 묘사 (사용자 입력)
+  const [autoDetails, setAutoDetails] = useStateM(""); // 악기, 템포, 키 AI 자동 추천 결과
+  
   const [isGeneratingGenre, setIsGeneratingGenre] = useStateM(false);
+  const [isGeneratingDetails, setIsGeneratingDetails] = useStateM(false);
+
+  const generateDetails = async () => {
+    setIsGeneratingDetails(true);
+    try {
+      const promptText = `당신은 전문 음악 프로듀서입니다. 
+사용자가 선택한 다음 정보를 바탕으로, 이 곡에 가장 잘 어울리는 [악기 구성(Instruments)], [템포(BPM)], [키(Key, Major/Minor)]를 추천해주세요.
+
+[주제]: ${subject.trim() || "입력 안됨"}
+[선택된 장르]: ${genre.join(", ") || "입력 안됨"}
+
+다음과 같은 영어 형식으로만 출력하세요. 부가적인 설명은 절대 적지 마세요.
+형식 예시:
+Instruments: Acoustic Guitar, Soft Piano, Light Percussion
+Tempo: 85 BPM
+Key: C Major`;
+
+      const res = await fetch("http://localhost:11434/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "qwen2.5:14b",
+          prompt: promptText,
+          stream: false,
+          options: {
+            temperature: 0.7
+          }
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setAutoDetails(data.response.trim());
+      }
+    } catch (err) {
+      console.error("Details generation failed:", err);
+    } finally {
+      setIsGeneratingDetails(false);
+    }
+  };
 
   const togglePreset = (subId) => {
     setThemePreset((prev) =>
@@ -365,9 +407,17 @@ function MusicTab() {
         "A reference image will be attached separately. Analyze its mood, color palette, lighting, composition, and subject matter."
       );
     }
-    lines.push(
-      "From the attached image AND the subject above, automatically derive: the instrument set, the tempo (BPM), and the musical key (major / minor). Pick instruments and harmony that emotionally match BOTH the image and the subject."
-    );
+
+    if (autoDetails.trim()) {
+      lines.push("");
+      lines.push("[INSTRUMENTS / TEMPO / KEY]");
+      lines.push(autoDetails.trim());
+    } else {
+      lines.push(
+        "From the attached image AND the subject above, automatically derive: the instrument set, the tempo (BPM), and the musical key (major / minor). Pick instruments and harmony that emotionally match BOTH the image and the subject."
+      );
+    }
+
     if (imageHint.trim()) {
       lines.push(`Additional reference notes: ${imageHint.trim()}`);
     }
@@ -409,12 +459,19 @@ function MusicTab() {
       "[HARMONY — STRICT] ABSOLUTELY NO dissonant or clashing tone combinations. Do NOT use atonal clusters, harsh microtonal beating, accidentals that fight the established key, or simultaneous notes that produce unpleasant minor-2nd / tritone collisions on strong beats. Every voicing — lead vocal, backing chorus, and all instruments — must stay consonant within the chosen key, blend smoothly, and resolve cleanly. Prioritize emotional clarity and a pleasant, well-tuned sound over experimental dissonance."
     );
     lines.push("");
-    lines.push(
-      "[AUTO-DETECT FROM IMAGE + SUBJECT] Choose the instrument set, tempo (BPM), and key (major / minor) that best fit both the mood of the attached image AND the subject above. Output a ~3-minute song that matches all directives above."
-    );
+    
+    if (autoDetails.trim()) {
+      lines.push(
+        "[FINAL INSTRUCTIONS] Output a ~3-minute song that matches all directives above, strictly following the defined instruments, tempo, and key."
+      );
+    } else {
+      lines.push(
+        "[AUTO-DETECT FROM IMAGE + SUBJECT] Choose the instrument set, tempo (BPM), and key (major / minor) that best fit both the mood of the attached image AND the subject above. Output a ~3-minute song that matches all directives above."
+      );
+    }
 
     return lines.join("\n");
-  }, [genre, vocal, chorus, lang, humming, extra, imageHint, subject, imageFile, themePreset]);
+  }, [genre, vocal, chorus, lang, humming, extra, imageHint, autoDetails, subject, imageFile, themePreset]);
 
   const reset = () => {
     if (!confirm("선택한 항목을 모두 초기화할까요?")) return;
@@ -429,6 +486,7 @@ function MusicTab() {
     setHumming("");
     setExtra("");
     setImageHint("");
+    setAutoDetails("");
   };
 
   return (
@@ -524,15 +582,35 @@ function MusicTab() {
 
         <Section
           id="m-auto"
-          title="악기 · 템포 · 키 (자동)"
-          hint="첨부 이미지 + 주제에서 자동 추출. 원하면 아래에 보조 설명을 적어주세요."
+          title="악기 · 템포 · 키 추천 (AI)"
+          hint="주제와 장르를 바탕으로 AI가 어울리는 구성을 추천합니다. 자유롭게 수정하세요."
         >
           <div className="auto-card">
+            <div className="auto-row" style={{ justifyContent: 'space-between', marginBottom: '8px' }}>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <span className="pill">🎼 악기</span>
+                <span className="pill">⏱ 템포 (BPM)</span>
+                <span className="pill">🎹 키 (Major/Minor)</span>
+              </div>
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={generateDetails}
+                disabled={isGeneratingDetails}
+                style={{ padding: '4px 10px', fontSize: '12.5px', borderRadius: '6px' }}
+              >
+                {isGeneratingDetails ? "⏳ 고민 중..." : "✨ AI 추천받기"}
+              </button>
+            </div>
+            <textarea
+              placeholder="추천받기를 누르면 악기, 템포, 키 구성이 이곳에 생성됩니다. 직접 작성하셔도 좋습니다."
+              value={autoDetails}
+              onChange={(e) => setAutoDetails(e.target.value)}
+              rows={4}
+              style={{ marginBottom: '12px' }}
+            />
             <div className="auto-row">
-              <span className="pill">🎼 악기</span>
-              <span className="pill">⏱ 템포 (BPM)</span>
-              <span className="pill">🎹 키 (Major/Minor)</span>
-              <span className="auto-note">
+              <span className="auto-note" style={{ marginLeft: 0 }}>
                 {imageFile ? "✓ 이미지 첨부됨" : "이미지 첨부 대기"}
                 {" · "}
                 {subject.trim() ? "✓ 주제 입력됨" : "주제 입력 대기"}
@@ -542,7 +620,7 @@ function MusicTab() {
               placeholder="이미지의 분위기를 추가로 설명 (예: 따뜻한 가을 햇살, 잔잔한 호수)"
               value={imageHint}
               onChange={(e) => setImageHint(e.target.value)}
-              rows={3}
+              rows={2}
             />
           </div>
         </Section>
