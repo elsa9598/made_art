@@ -178,10 +178,8 @@ Key: C Major`;
         });
       });
 
-      const availableGenres = D.GENRE.map((g) => g.ko).join(", ");
-      
       let promptText = `당신은 창의적이고 감각적인 음악 장르 전문가입니다.
-항상 뻔한 장르만 고르지 말고, 100여 개의 장르 목록 중 상황에 맞는 다양하고 독창적인 장르를 발굴하여 제안해야 합니다.
+제시된 주제와 테마 분위기를 완벽하게 표현할 수 있는 음악 장르를 3가지 추천해주세요.
 
 아래 제공된 정보를 바탕으로 가장 잘 어울리는 음악 장르 딱 3개를 신중하게 골라주세요.
 선택 기준의 우선순위는 다음과 같습니다:
@@ -208,8 +206,7 @@ Key: C Major`;
         promptText += `[참고 정보 (2순위)]\n${refInfo}\n`;
       }
       
-      promptText += `[장르 목록]\n${availableGenres}\n\n`;
-      promptText += `반드시 위 장르 목록에 있는 정확한 단어로만 3개를 골라 JSON 배열 형태로 출력하세요. 다른 말은 절대 하지 마세요.\n예시: ["신스웨이브", "인디 포크", "피아노 솔로"]`;
+      promptText += `반드시 추천하는 장르명 3개만 골라 JSON 배열 형태로 출력하세요. 다른 말은 절대 하지 마세요.\n예시: ["신스웨이브", "인디 포크", "피아노 솔로"]`;
 
       const res = await fetch("http://localhost:11434/api/generate", {
         method: "POST",
@@ -334,7 +331,7 @@ Key: C Major`;
     lines.push("");
 
     if (genre.length) {
-      const en = uniq(genre.map((k) => labelToEn(D.GENRE, k)));
+      const en = uniq(genre);
       lines.push("[GENRE] " + en.join(", "));
     }
 
@@ -480,9 +477,10 @@ Key: C Major`;
           </div>
         </Section>
 
-        <Section id="m-genre" title="장르" hint={`${D.GENRE.length}개 + 직접 입력 · 복수 가능`} badge={genre.length}>
+        <Section id="m-genre" title="장르" hint={`AI 추천 및 직접 입력 · 복수 가능`} badge={genre.length}>
           <ChipPicker
-            list={D.GENRE}
+            list={[]}
+            searchable={false}
             value={genre}
             onChange={setGenre}
             customs={genreCustom}
