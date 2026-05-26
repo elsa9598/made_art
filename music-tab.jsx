@@ -109,8 +109,7 @@ function MusicTab() {
   const [chorus, setChorus] = useStateM(["코러스 없음"]);
   const [lang, setLang] = useStateM(["한글 가사"]);
 
-  const [humming, setHumming] = useStateM("");
-  const [extra, setExtra] = useStateM("");
+  const [natureSounds, setNatureSounds] = useStateM([]);
 
   const [imageHint, setImageHint] = useStateM(""); // 첨부 이미지의 분위기 묘사 (사용자 입력)
   const [autoDetails, setAutoDetails] = useStateM(""); // 악기, 템포, 키 AI 자동 추천 결과
@@ -277,8 +276,7 @@ Key: C Major`;
     { id: "m-vocal", title: "보컬", count: vocal.length || null },
     { id: "m-chorus", title: "코러스", count: null },
     { id: "m-lyric", title: "가사 언어", count: null },
-    { id: "m-humming", title: "허밍", count: null },
-    { id: "m-extra", title: "추가 옵션", count: null },
+    { id: "m-nature", title: "자연의 소리", count: natureSounds.length || null },
     { id: "m-final", title: "최종 확정", count: null },
   ];
 
@@ -351,11 +349,9 @@ Key: C Major`;
       );
     }
 
-    if (humming.trim()) {
-      lines.push(`[HUMMING] ${humming.trim()}`);
-    }
-    if (extra.trim()) {
-      lines.push(`[ADDITIONAL] ${extra.trim()}`);
+    if (natureSounds.length) {
+      const en = uniq(natureSounds.map((k) => labelToEn(D.NATURE_SOUNDS, k)));
+      lines.push("[NATURE / AMBIENT SOUNDS] " + en.join(", "));
     }
 
     lines.push("");
@@ -378,7 +374,7 @@ Key: C Major`;
     }
 
     return lines.join("\n");
-  }, [genre, vocal, chorus, lang, humming, extra, imageHint, autoDetails, subject, themePreset]);
+  }, [genre, vocal, chorus, lang, natureSounds, imageHint, autoDetails, subject, themePreset]);
 
   const reset = () => {
     if (!confirm("선택한 항목을 모두 초기화할까요?")) return;
@@ -389,8 +385,7 @@ Key: C Major`;
     setVocal([]);
     setChorus(["코러스 없음"]);
     setLang(["한글 가사"]);
-    setHumming("");
-    setExtra("");
+    setNatureSounds([]);
     setImageHint("");
     setAutoDetails("");
   };
@@ -565,23 +560,12 @@ Key: C Major`;
           />
         </Section>
 
-        <Section id="m-humming" title="허밍" hint="직접 입력 (예: 후렴 전 4마디 허밍, 도입부 휘파람)">
-          <textarea
-            value={humming}
-            onChange={(e) => setHumming(e.target.value)}
-            placeholder="예: 후렴 직전에 따뜻한 허밍 4마디 / 인트로에 휘파람 8마디"
-            rows={3}
-            className="big-text"
-          />
-        </Section>
-
-        <Section id="m-extra" title="추가 옵션" hint="자유 입력 (구조, 효과, 분위기 메모 등)">
-          <textarea
-            value={extra}
-            onChange={(e) => setExtra(e.target.value)}
-            placeholder="예: 인트로 → 벌스 → 프리코러스 → 코러스 → 브릿지 / 빈티지 테이프 효과 / 후반부 페이드아웃"
-            rows={4}
-            className="big-text"
+        <Section id="m-nature" title="자연의 소리" hint="복수 선택 가능" badge={natureSounds.length}>
+          <ChipPicker
+            list={D.NATURE_SOUNDS}
+            value={natureSounds}
+            onChange={setNatureSounds}
+            collapsible={false}
           />
         </Section>
 
