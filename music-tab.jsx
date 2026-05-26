@@ -149,9 +149,12 @@ Key: C Major`;
       if (res.ok) {
         const data = await res.json();
         setAutoDetails(data.response.trim());
+      } else {
+        setAutoDetails("⚠️ 오류: " + res.status);
       }
     } catch (err) {
       console.error("Details generation failed:", err);
+      setAutoDetails("⚠️ 연결 실패: Ollama 서버가 켜져 있는지 확인하세요.");
     } finally {
       setIsGeneratingDetails(false);
     }
@@ -251,19 +254,20 @@ Key: C Major`;
           }
         }
 
-        if (arr) {
-          const validGenres = arr.filter((g) => D.GENRE.some((x) => x.ko === g)).slice(0, 3);
-          if (validGenres.length > 0) {
-            setDraft(validGenres.join(", "));
-          } else {
-            console.warn("No valid genres found in AI response array:", arr);
-          }
+        if (arr && arr.length > 0) {
+          // AI가 가끔 목록에 없는 변형된 단어를 뱉을 수도 있으므로 엄격한 필터링 해제
+          setDraft(arr.slice(0, 3).join(", "));
         } else {
-           console.warn("Could not find an array in AI response:", responseStr);
+          // 배열 파싱에 실패한 경우 쌩 텍스트라도 보여줌
+          const cleanText = responseStr.replace(/```json|```/g, '').replace(/\n/g, ' ').trim();
+          setDraft(cleanText.slice(0, 80));
         }
+      } else {
+        setDraft("⚠️ 오류: " + res.status);
       }
     } catch (err) {
       console.error("Genre recommendation failed:", err);
+      setDraft("⚠️ 연결 실패: Ollama 서버가 켜져 있는지 확인하세요.");
     } finally {
       setIsGeneratingGenre(false);
     }
