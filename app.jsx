@@ -79,6 +79,7 @@ function ChipPicker({
   onAddCustom = null,
   collapsible = true,
   initialCount = 32,
+  aiButton = null,
 }) {
   const [q, setQ] = useState("");
   const [expanded, setExpanded] = useState(!collapsible);
