@@ -413,18 +413,21 @@ Key: C Major`;
           hint="곡의 핵심 주제와 전반적인 분위기를 적어주세요. AI가 장르와 악기를 추천할 때 활용합니다."
         >
           <div className="subject-row">
-            <label className="subject-label">🎯 주제 (한 줄)</label>
+            <label className="subject-label" htmlFor="subject-input">🎯 주제 (한 줄)</label>
             <input
+              id="subject-input"
               type="text"
               className="subject-input"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
               placeholder="예: 비 오는 날 창가의 강아지 / 첫 눈 내린 아침 산책 / 늦은 밤 우리집 식탁"
             />
           </div>
           <div className="subject-row" style={{ marginTop: '16px' }}>
-            <label className="subject-label">✨ 분위기 추가 설명</label>
+            <label className="subject-label" htmlFor="image-hint-input">✨ 분위기 추가 설명</label>
             <textarea
+              id="image-hint-input"
               className="subject-input"
               value={imageHint}
               onChange={(e) => setImageHint(e.target.value)}
