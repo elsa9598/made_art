@@ -78,6 +78,72 @@ const THEME_PRESETS = [
         label: "치유의 울림",
         desc: "핸드팬, 대금, 가야금의 맑고 깊은 선율과 큰북, 작은북, 꽹과리 등 타악기의 리듬이 어우러져 몸과 마음의 긴장을 풀어주고 균형을 되찾아 줍니다.",
         promptEn: "Meditative healing music featuring the pure, resonant tones of a handpan as the central melodic voice, intertwined with the deep breathy timbre of a Daegeum (Korean bamboo flute) and the gentle plucked arpeggios of a Gayageum (Korean zither). Grounded by the warm pulse of a buk (large Korean drum), delicate accents from a sogo (small drum), and bright metallic shimmer of a kkwaenggwari (small gong). Slow, breathing tempo, wide reverb spaces, pentatonic scales, deeply calming and restorative atmosphere that releases tension and restores inner balance."
+      },
+      {
+        id: "meditation-music",
+        label: "명상 음악",
+        desc: "깊은 호흡과 내면의 집중에 도움을 주는 고요한 명상 음악입니다.",
+        promptEn: "Deeply calming meditation music, slow breathing tempo, atmospheric pads, pure sine waves, zen-like focus, tranquil and serene."
+      },
+      {
+        id: "healing-music",
+        label: "치유 음악",
+        desc: "지친 마음을 달래고 정서적 회복을 돕는 따뜻한 치유 음악입니다.",
+        promptEn: "Restorative healing music, warm resonant frequencies, soothing acoustic instruments, gentle flow, emotional release, comforting atmosphere."
+      },
+      {
+        id: "ambient",
+        label: "앰비언트",
+        desc: "공간감을 넓게 채우며 배경으로 자연스럽게 스며드는 앰비언트 음악입니다.",
+        promptEn: "Atmospheric ambient music, wide spatial reverb, drifting synth textures, beatless, infinite soundscape, ethereal and expansive."
+      },
+      {
+        id: "world-music",
+        label: "월드뮤직",
+        desc: "세계 각국의 전통 악기와 리듬이 조화롭게 어우러지는 월드뮤직입니다.",
+        promptEn: "Rich world music, traditional ethnic instruments from various cultures, organic rhythms, cross-cultural harmony, earthy and grounded."
+      },
+      {
+        id: "new-age",
+        label: "뉴에이지",
+        desc: "맑고 투명한 어쿠스틱 악기와 부드러운 신스가 결합된 뉴에이지 음악입니다.",
+        promptEn: "Uplifting New Age music, bright acoustic piano, ethereal synthesizers, optimistic and peaceful melodies, crystal clear sound."
+      },
+      {
+        id: "ethnic-fusion",
+        label: "에스닉 퓨전",
+        desc: "전통 민속 악기와 현대적인 비트가 만난 독특한 에스닉 퓨전 음악입니다.",
+        promptEn: "Dynamic ethnic fusion, blending traditional folk instruments with modern electronic or acoustic beats, exotic scales, rhythmic groove, culturally rich."
+      },
+      {
+        id: "neo-classical",
+        label: "네오 클래식",
+        desc: "미니멀하면서도 감성적인 현악기와 피아노 중심의 네오 클래식 음악입니다.",
+        promptEn: "Intimate Neo-classical music, emotive solo string instruments, delicate felt piano, minimalist and expressive phrasing, deeply moving."
+      },
+      {
+        id: "lofi-ambient",
+        label: "로파이 앰비언트",
+        desc: "따뜻한 질감과 빈티지한 노이즈가 어우러진 로파이 앰비언트 음악입니다.",
+        promptEn: "Warm lo-fi ambient, vinyl crackle, tape saturation, muffled electric piano, nostalgic and cozy atmosphere, relaxed tempo."
+      },
+      {
+        id: "cinematic",
+        label: "시네마틱 음악",
+        desc: "한편의 영화처럼 서사와 드라마틱한 감정선이 살아있는 시네마틱 음악입니다.",
+        promptEn: "Evocative cinematic music, lush orchestral arrangements, dramatic emotional arc, sweeping strings, storytelling focus, grand scale."
+      },
+      {
+        id: "nature-asmr",
+        label: "자연음 기반 ASMR",
+        desc: "물소리, 새소리, 바람소리 등 자연의 백색소음이 주가 되는 음악입니다.",
+        promptEn: "Immersive ASMR music driven by pristine nature recordings, gentle acoustic layers blending smoothly with water, wind, and forest sounds, ultra-relaxing."
+      },
+      {
+        id: "improv",
+        label: "즉흥 연주",
+        desc: "형식에 얽매이지 않고 자유롭게 감정을 표현하는 즉흥 연주 음악입니다.",
+        promptEn: "Free-flowing improvisational music, spontaneous instrumental interactions, expressive solos, organic and unscripted energy, raw emotion."
       }
     ]
   },
@@ -98,9 +164,101 @@ const THEME_PRESETS = [
   }
 ];
 
+const THEME_SOUNDS = {
+  "meditation-music": [
+    { id: "snd-handpan", label: "핸드팬", en: "handpan" },
+    { id: "snd-daegeum", label: "대금", en: "daegeum (Korean bamboo flute)" },
+    { id: "snd-singingbowl", label: "싱잉볼", en: "singing bowl" },
+    { id: "snd-lowdrone", label: "낮은 드론 사운드", en: "low drone sound" },
+    { id: "snd-wind", label: "바람소리", en: "wind sound" }
+  ],
+  "healing-music": [
+    { id: "snd-handpan", label: "핸드팬", en: "handpan" },
+    { id: "snd-gayageum", label: "가야금", en: "gayageum (Korean zither)" },
+    { id: "snd-cello", label: "첼로", en: "cello" },
+    { id: "snd-piano", label: "피아노", en: "piano" },
+    { id: "snd-water", label: "물소리", en: "water sound" },
+    { id: "snd-purr", label: "고양이 골골송", en: "cat purring" }
+  ],
+  "ambient": [
+    { id: "snd-longpad", label: "긴 패드", en: "long atmospheric pads" },
+    { id: "snd-synth", label: "신스", en: "synthesizer" },
+    { id: "snd-handpan-reverb", label: "핸드팬 잔향", en: "handpan with long reverb" },
+    { id: "snd-wind", label: "바람", en: "wind" },
+    { id: "snd-waterdrop", label: "물방울", en: "water drops" }
+  ],
+  "world-music": [
+    { id: "snd-handpan", label: "핸드팬", en: "handpan" },
+    { id: "snd-daegeum", label: "대금", en: "daegeum" },
+    { id: "snd-gayageum", label: "가야금", en: "gayageum" },
+    { id: "snd-janggu", label: "장구", en: "janggu (Korean hourglass drum)" },
+    { id: "snd-woodflute", label: "우드 플루트", en: "wooden flute" },
+    { id: "snd-framedrum", label: "프레임드럼", en: "frame drum" }
+  ],
+  "new-age": [
+    { id: "snd-piano", label: "피아노", en: "piano" },
+    { id: "snd-handpan", label: "핸드팬", en: "handpan" },
+    { id: "snd-string", label: "스트링", en: "strings" },
+    { id: "snd-harp", label: "하프", en: "harp" },
+    { id: "snd-flute", label: "플루트", en: "flute" }
+  ],
+  "ethnic-fusion": [
+    { id: "snd-handpan", label: "핸드팬", en: "handpan" },
+    { id: "snd-sanjodaegeum", label: "산조대금", en: "sanjo daegeum" },
+    { id: "snd-gayageum", label: "가야금", en: "gayageum" },
+    { id: "snd-haegeum", label: "해금", en: "haegeum (Korean fiddle)" },
+    { id: "snd-bigdrum", label: "큰북", en: "large drum" },
+    { id: "snd-smalldrum", label: "작은북", en: "small drum" },
+    { id: "snd-drone", label: "드론 사운드", en: "drone sound" }
+  ],
+  "neo-classical": [
+    { id: "snd-piano", label: "피아노", en: "piano" },
+    { id: "snd-cello", label: "첼로", en: "cello" },
+    { id: "snd-violin", label: "바이올린", en: "violin" },
+    { id: "snd-handpan", label: "핸드팬", en: "handpan" },
+    { id: "snd-softstring", label: "잔잔한 스트링", en: "soft strings" }
+  ],
+  "lofi-ambient": [
+    { id: "snd-handpan", label: "핸드팬", en: "handpan" },
+    { id: "snd-lowsynth", label: "낮은 신스", en: "low synth" },
+    { id: "snd-tapenoise", label: "테이프 노이즈", en: "tape noise" },
+    { id: "snd-rain", label: "빗소리", en: "rain sounds" },
+    { id: "snd-softbeat", label: "부드러운 비트", en: "soft lo-fi beat" }
+  ],
+  "cinematic": [
+    { id: "snd-handpan", label: "핸드팬", en: "handpan" },
+    { id: "snd-daegeum", label: "대금", en: "daegeum" },
+    { id: "snd-string", label: "스트링", en: "orchestral strings" },
+    { id: "snd-bigdrum", label: "큰북", en: "cinematic large drum" },
+    { id: "snd-lowdrone", label: "낮은 드론", en: "low drone" },
+    { id: "snd-choir", label: "합창 패드", en: "choir pad" }
+  ],
+  "nature-asmr": [
+    { id: "snd-wave", label: "파도", en: "ocean waves" },
+    { id: "snd-rain", label: "비", en: "rain" },
+    { id: "snd-wind", label: "바람", en: "wind" },
+    { id: "snd-purr", label: "고양이 골골송", en: "cat purring" },
+    { id: "snd-leaves", label: "나뭇잎", en: "rustling leaves" },
+    { id: "snd-handpan", label: "핸드팬", en: "handpan" }
+  ],
+  "improv": [
+    { id: "snd-handpan-solo", label: "핸드팬 단독", en: "solo handpan" },
+    { id: "snd-handpan-daegeum", label: "핸드팬+대금", en: "handpan and daegeum" },
+    { id: "snd-handpan-percussion", label: "핸드팬+타악기", en: "handpan and percussion" },
+    { id: "snd-handpan-humming", label: "핸드팬+허밍", en: "handpan and humming" }
+  ]
+};
+
 function MusicTab() {
   const [subject, setSubject] = useStateM("");
   const [themePreset, setThemePreset] = useStateM([]); // 선택된 서브 프리셋 id 배열
+  const [selectedSounds, setSelectedSounds] = useStateM([]);
+
+  const toggleSound = (sndKey) => {
+    setSelectedSounds((prev) =>
+      prev.includes(sndKey) ? prev.filter((x) => x !== sndKey) : [...prev, sndKey]
+    );
+  };
 
   const [genre, setGenre] = useStateM([]);
   const [genreCustom, setGenreCustom] = useStateM([]);
@@ -306,7 +464,16 @@ Key: C Major`;
       THEME_PRESETS.forEach((cat) => {
         cat.subs.forEach((sub) => {
           if (themePreset.includes(sub.id)) {
-            lines.push(`• ${cat.titleEn} — ${sub.label}: ${sub.promptEn}`);
+            let line = `• ${cat.titleEn} — ${sub.label}: ${sub.promptEn}`;
+            // 테마별 선택된 소리 확인
+            const subSounds = selectedSounds
+              .filter(s => s.startsWith(`${sub.id}::`))
+              .map(s => s.split("::")[1]);
+            
+            if (subSounds.length > 0) {
+              line += ` Specifically featuring: ${subSounds.join(", ")}.`;
+            }
+            lines.push(line);
           }
         });
       });
@@ -374,7 +541,7 @@ Key: C Major`;
     }
 
     return lines.join("\n");
-  }, [genre, vocal, chorus, lang, natureSounds, imageHint, autoDetails, subject, themePreset]);
+  }, [genre, vocal, chorus, lang, natureSounds, imageHint, autoDetails, subject, themePreset, selectedSounds]);
 
   const reset = () => {
     if (!confirm("선택한 항목을 모두 초기화할까요?")) return;
@@ -388,6 +555,7 @@ Key: C Major`;
     setNatureSounds([]);
     setImageHint("");
     setAutoDetails("");
+    setSelectedSounds([]);
   };
 
   return (
@@ -473,6 +641,39 @@ Key: C Major`;
                     );
                   })}
                 </div>
+                {cat.id === "meditation" && themePreset.some(id => THEME_SOUNDS[id]) && (
+                  <div className="theme-sounds-box" style={{ padding: '16px', background: 'var(--surface-2)', borderTop: '1px dashed var(--line)' }}>
+                    <div style={{ fontSize: '13.5px', fontWeight: '700', marginBottom: '12px', color: 'var(--ink-2)' }}>✨ 잘 어울리는 소리 추가 (선택한 테마별)</div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      {themePreset.map(themeId => {
+                        if (!THEME_SOUNDS[themeId]) return null;
+                        const subTheme = cat.subs.find(s => s.id === themeId);
+                        return (
+                          <div key={themeId} style={{ background: 'var(--card)', padding: '12px', borderRadius: '8px', border: '1px solid var(--line)' }}>
+                            <div style={{ fontSize: '12px', color: 'var(--ink-3)', marginBottom: '8px', fontWeight: 'bold' }}>{subTheme.label}</div>
+                            <div className="chip-row">
+                              {THEME_SOUNDS[themeId].map(snd => {
+                                const sndKey = `${themeId}::${snd.en}`;
+                                const isOn = selectedSounds.includes(sndKey);
+                                return (
+                                  <button
+                                    key={snd.id}
+                                    type="button"
+                                    className={`chip ${isOn ? "on" : ""}`}
+                                    onClick={() => toggleSound(sndKey)}
+                                    style={{ padding: '4px 10px', fontSize: '12px' }}
+                                  >
+                                    {snd.label}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
