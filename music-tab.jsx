@@ -395,7 +395,10 @@ Key: C Major`;
       <Sidebar items={navItems} active={active} onJump={jump} />
       <div className="content">
         <div className="tab-header">
-          <h1>🎵 음악 생성 프롬프트</h1>
+          <div className="tab-header-row">
+            <h1>🎵 음악 생성 프롬프트</h1>
+            <button className="btn-reset-top" onClick={reset} title="모든 선택 및 입력을 초기화합니다">🔄 초기화</button>
+          </div>
           <p>
             악기·템포·키는 <b>첨부 이미지 분석</b>으로 자동 결정됩니다. 분위기를 텍스트로
             추가 설명하면 더 정확해져요.
