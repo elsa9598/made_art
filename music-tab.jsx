@@ -237,6 +237,10 @@ function MusicTab() {
     lines.push("Target total duration is approximately 3 minutes. Structure the arrangement to fit naturally within this length, without abrupt cuts.");
     
     lines.push("");
+    lines.push("[VOCALS & LYRICS]");
+    lines.push("Semi-instrumental. This is a song without lyrics.");
+
+    lines.push("");
     lines.push("[HARMONY — STRICT]");
     lines.push("ABSOLUTELY NO dissonant or clashing tone combinations. Every voicing must stay consonant, blend smoothly, and resolve cleanly. Prioritize emotional clarity and a deeply calming atmosphere.");
 
