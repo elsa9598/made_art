@@ -137,6 +137,7 @@ function MusicTab() {
   const [activeTheme, setActiveTheme] = useStateM(null);
   const [selectedInst, setSelectedInst] = useStateM([]);
   const [selectedNature, setSelectedNature] = useStateM([]);
+  const [natureInput, setNatureInput] = useStateM("");
 
   const toggleInst = (enLabel) => {
     setSelectedInst(prev => prev.includes(enLabel) ? prev.filter(x => x !== enLabel) : [...prev, enLabel]);
@@ -150,6 +151,7 @@ function MusicTab() {
     setActiveTheme(id);
     setSelectedInst([]);
     setSelectedNature([]);
+    setNatureInput("");
   };
 
   const prompt = useMemoM(() => {
@@ -194,6 +196,7 @@ function MusicTab() {
     setActiveTheme(null);
     setSelectedInst([]);
     setSelectedNature([]);
+    setNatureInput("");
   };
 
   const navItems = [
@@ -285,6 +288,55 @@ function MusicTab() {
                             </button>
                           );
                         })}
+                        {selectedNature
+                          .filter(sn => !theme.nature.find(n => n.en === sn))
+                          .map(customSn => (
+                            <button
+                              key={customSn}
+                              type="button"
+                              className="chip on"
+                              onClick={() => toggleNature(customSn)}
+                            >
+                              {customSn} ✕
+                            </button>
+                          ))
+                        }
+                      </div>
+                      
+                      <div style={{ display: "flex", gap: "8px", marginTop: "12px" }}>
+                        <input 
+                          type="text" 
+                          className="input" 
+                          placeholder="직접 입력 (예: birds singing)" 
+                          value={natureInput}
+                          onChange={(e) => setNatureInput(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' && natureInput.trim()) {
+                              const val = natureInput.trim();
+                              if (!selectedNature.includes(val)) {
+                                setSelectedNature(prev => [...prev, val]);
+                              }
+                              setNatureInput("");
+                            }
+                          }}
+                          style={{ flex: 1, padding: "8px 12px", borderRadius: "6px", border: "1px solid var(--line)", background: "var(--bg)", color: "var(--ink-1)" }}
+                        />
+                        <button 
+                          type="button" 
+                          className="btn-primary" 
+                          onClick={() => {
+                            if (natureInput.trim()) {
+                              const val = natureInput.trim();
+                              if (!selectedNature.includes(val)) {
+                                setSelectedNature(prev => [...prev, val]);
+                              }
+                              setNatureInput("");
+                            }
+                          }}
+                          style={{ padding: "0 16px", borderRadius: "6px", fontWeight: "bold" }}
+                        >
+                          추가
+                        </button>
                       </div>
                     </div>
                   )}
