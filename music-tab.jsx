@@ -149,6 +149,12 @@ function MusicTab() {
   const [tempoInput, setTempoInput] = useStateM("");
   const [selectedTempo, setSelectedTempo] = useStateM("");
   const [selectedScale, setSelectedScale] = useStateM("");
+  const [handpanCount, setHandpanCount] = useStateM("1");
+  const [handpanRoles, setHandpanRoles] = useStateM([]);
+
+  const toggleHandpanRole = (role) => {
+    setHandpanRoles(prev => prev.includes(role) ? prev.filter(x => x !== role) : [...prev, role]);
+  };
 
   const toggleInst = (enLabel) => {
     setSelectedInst(prev => prev.includes(enLabel) ? prev.filter(x => x !== enLabel) : [...prev, enLabel]);
@@ -166,6 +172,8 @@ function MusicTab() {
     setTempoInput("");
     setSelectedTempo("");
     setSelectedScale("");
+    setHandpanCount("1");
+    setHandpanRoles([]);
   };
 
   const prompt = useMemoM(() => {
@@ -180,11 +188,31 @@ function MusicTab() {
     lines.push("");
     
     lines.push("[MAIN INSTRUMENT]");
-    let mainInstStr = "• Handpan (Focusing on Melody + Rhythm + Resonance)";
+    let mainInstStr = "";
+    if (handpanCount === "1") {
+      mainInstStr = "• 1 Handpan (Focusing on Melody + Rhythm + Resonance)";
+    } else {
+      mainInstStr = `• Handpan Ensemble (${handpanCount} players)`;
+    }
+
     if (selectedScale) {
       mainInstStr += ` - Scale: ${selectedScale}`;
     }
     lines.push(mainInstStr);
+
+    if (handpanCount !== "1" && handpanRoles.length > 0) {
+      const roleStrings = [];
+      if (handpanRoles.includes("pulse")) roleStrings.push("low-end rhythm and steady pulse");
+      if (handpanRoles.includes("melody")) roleStrings.push("main melody");
+      if (handpanRoles.includes("fill")) roleStrings.push("fast touches filling the reverb and spatial field");
+
+      const roleDescs = roleStrings.map((r, idx) => {
+        if (idx === 0) return `One player focuses on ${r}.`;
+        if (idx === 1) return `Another player focuses on ${r}.`;
+        return `A third player focuses on ${r}.`;
+      });
+      lines.push(`  - Ensemble Roles: ${roleDescs.join(" ")}`);
+    }
     
     if (selectedInst.length > 0) {
       lines.push("");
@@ -213,7 +241,7 @@ function MusicTab() {
     lines.push("ABSOLUTELY NO dissonant or clashing tone combinations. Every voicing must stay consonant, blend smoothly, and resolve cleanly. Prioritize emotional clarity and a deeply calming atmosphere.");
 
     return lines.join("\n");
-  }, [activeTheme, selectedInst, selectedNature, selectedTempo, selectedScale]);
+  }, [activeTheme, selectedInst, selectedNature, selectedTempo, selectedScale, handpanCount, handpanRoles]);
 
   const reset = () => {
     if (!confirm("모든 선택을 초기화할까요?")) return;
@@ -224,6 +252,8 @@ function MusicTab() {
     setTempoInput("");
     setSelectedTempo("");
     setSelectedScale("");
+    setHandpanCount("1");
+    setHandpanRoles([]);
   };
 
   const navItems = [
@@ -278,10 +308,30 @@ function MusicTab() {
                   
                   {isOn && (
                     <div className="theme-sounds-box" style={{ padding: '16px', background: 'var(--surface-2)', border: '1px solid var(--accent)', borderRadius: '12px', marginLeft: '24px' }}>
-                      <div style={{ fontSize: '13.5px', fontWeight: '700', marginBottom: '8px', color: 'var(--ink-2)' }}>✨ 메인 악기</div>
-                      <div className="chip-row" style={{ marginBottom: '16px' }}>
-                        <span className="chip on" style={{ cursor: 'default' }}>핸드팬 (기본 포함)</span>
+                      <div style={{ fontSize: '13.5px', fontWeight: '700', marginBottom: '8px', color: 'var(--ink-2)' }}>✨ 메인 악기 (핸드팬 구성)</div>
+                      <div className="chip-row" style={{ marginBottom: '12px' }}>
+                        {["1", "2", "3"].map(num => (
+                          <button
+                            key={num}
+                            type="button"
+                            className={`chip ${handpanCount === num ? "on" : ""}`}
+                            onClick={() => setHandpanCount(num)}
+                          >
+                            {num === "1" ? "1대 (솔로)" : `${num}대 (합주)`}
+                          </button>
+                        ))}
                       </div>
+                      
+                      {handpanCount !== "1" && (
+                        <div style={{ marginBottom: '16px' }}>
+                          <div style={{ fontSize: '12px', fontWeight: 'bold', marginBottom: '8px', color: 'var(--ink-3)' }}>▶ 핸드팬 연주 역할 (복수 선택)</div>
+                          <div className="chip-row">
+                            <button type="button" className={`chip ${handpanRoles.includes("pulse") ? "on" : ""}`} onClick={() => toggleHandpanRole("pulse")}>저음 리듬 / Pulse</button>
+                            <button type="button" className={`chip ${handpanRoles.includes("melody") ? "on" : ""}`} onClick={() => toggleHandpanRole("melody")}>메인 멜로디</button>
+                            <button type="button" className={`chip ${handpanRoles.includes("fill") ? "on" : ""}`} onClick={() => toggleHandpanRole("fill")}>잔향·공간 채우기 (빠른 터치)</button>
+                          </div>
+                        </div>
+                      )}
 
                       <div style={{ fontSize: '13.5px', fontWeight: '700', marginBottom: '8px', marginTop: '16px', color: 'var(--ink-2)' }}>🪘 핸드팬 스케일 (선택)</div>
                       <div className="chip-row" style={{ marginBottom: '16px' }}>
