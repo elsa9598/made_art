@@ -67,17 +67,17 @@ const THEME_PRESETS = [
     ]
   },
   {
-    id: "oriental",
-    icon: "🎋",
-    title: "전통과 오리엔탈",
-    titleEn: "Traditional & Oriental",
-    desc: "동양적인 색채와 전통 악기의 선율이 돋보이는 음악들입니다.",
+    id: "meditation",
+    icon: "🧘",
+    title: "명상과 치유",
+    titleEn: "Meditation & Healing",
+    desc: "악기 본연의 진동과 울림으로 내면의 평온과 회복을 돕는 음악들입니다.",
     subs: [
       {
-        id: "oriental-trad",
-        label: "전통의 숨결",
-        desc: "매일 연습하시는 산조 대금의 깊고 구슬픈 음색이 곡의 메인이 되거나, 국악기와 현대 밴드 사운드가 크로스오버된 퓨전 테마.",
-        promptEn: "Fusion of Korean traditional instruments and modern band sounds — featuring the deep, soulful tone of a Sanjo Daegeum (large bamboo flute) as the main melody. Gayageum arpeggios, janggu drum patterns, crossed with electric bass, subtle drum kit, and atmospheric synth pads. Oriental pentatonic scales, hauntingly beautiful and culturally rich."
+        id: "meditation-healing",
+        label: "치유의 울림",
+        desc: "핸드팬, 대금, 가야금의 맑고 깊은 선율과 큰북, 작은북, 꽹과리 등 타악기의 리듬이 어우러져 몸과 마음의 긴장을 풀어주고 균형을 되찾아 줍니다.",
+        promptEn: "Meditative healing music featuring the pure, resonant tones of a handpan as the central melodic voice, intertwined with the deep breathy timbre of a Daegeum (Korean bamboo flute) and the gentle plucked arpeggios of a Gayageum (Korean zither). Grounded by the warm pulse of a buk (large Korean drum), delicate accents from a sogo (small drum), and bright metallic shimmer of a kkwaenggwari (small gong). Slow, breathing tempo, wide reverb spaces, pentatonic scales, deeply calming and restorative atmosphere that releases tension and restores inner balance."
       }
     ]
   },
