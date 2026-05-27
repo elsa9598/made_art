@@ -1,5 +1,13 @@
 const { useState: useStateM, useMemo: useMemoM } = React;
 
+const HANDPAN_SCALES = [
+  { id: "d-kurd", label: "D Kurd", en: "D Kurd scale" },
+  { id: "celtic-minor", label: "Celtic Minor", en: "Celtic Minor scale" },
+  { id: "amara", label: "Amara", en: "Amara scale" },
+  { id: "hijaz", label: "Hijaz (조금 중동 느낌)", en: "Hijaz scale" },
+  { id: "equinox", label: "Equinox", en: "Equinox scale" }
+];
+
 const MEDITATION_THEMES = [
   {
     id: "moonlight-healing",
@@ -138,6 +146,9 @@ function MusicTab() {
   const [selectedInst, setSelectedInst] = useStateM([]);
   const [selectedNature, setSelectedNature] = useStateM([]);
   const [natureInput, setNatureInput] = useStateM("");
+  const [tempoInput, setTempoInput] = useStateM("");
+  const [selectedTempo, setSelectedTempo] = useStateM("");
+  const [selectedScale, setSelectedScale] = useStateM("");
 
   const toggleInst = (enLabel) => {
     setSelectedInst(prev => prev.includes(enLabel) ? prev.filter(x => x !== enLabel) : [...prev, enLabel]);
@@ -152,6 +163,9 @@ function MusicTab() {
     setSelectedInst([]);
     setSelectedNature([]);
     setNatureInput("");
+    setTempoInput("");
+    setSelectedTempo("");
+    setSelectedScale("");
   };
 
   const prompt = useMemoM(() => {
@@ -166,7 +180,11 @@ function MusicTab() {
     lines.push("");
     
     lines.push("[MAIN INSTRUMENT]");
-    lines.push("• Handpan (Focusing on Melody + Rhythm + Resonance)");
+    let mainInstStr = "• Handpan (Focusing on Melody + Rhythm + Resonance)";
+    if (selectedScale) {
+      mainInstStr += ` - Scale: ${selectedScale}`;
+    }
+    lines.push(mainInstStr);
     
     if (selectedInst.length > 0) {
       lines.push("");
@@ -180,6 +198,12 @@ function MusicTab() {
       lines.push(`• ${selectedNature.join(", ")}`);
     }
 
+    if (selectedTempo) {
+      lines.push("");
+      lines.push("[TEMPO]");
+      lines.push(`• ${selectedTempo}`);
+    }
+
     lines.push("");
     lines.push("[LENGTH & STRUCTURE]");
     lines.push("Target total duration is approximately 3 minutes. Structure the arrangement to fit naturally within this length, without abrupt cuts.");
@@ -189,7 +213,7 @@ function MusicTab() {
     lines.push("ABSOLUTELY NO dissonant or clashing tone combinations. Every voicing must stay consonant, blend smoothly, and resolve cleanly. Prioritize emotional clarity and a deeply calming atmosphere.");
 
     return lines.join("\n");
-  }, [activeTheme, selectedInst, selectedNature]);
+  }, [activeTheme, selectedInst, selectedNature, selectedTempo, selectedScale]);
 
   const reset = () => {
     if (!confirm("모든 선택을 초기화할까요?")) return;
@@ -197,6 +221,9 @@ function MusicTab() {
     setSelectedInst([]);
     setSelectedNature([]);
     setNatureInput("");
+    setTempoInput("");
+    setSelectedTempo("");
+    setSelectedScale("");
   };
 
   const navItems = [
@@ -254,6 +281,23 @@ function MusicTab() {
                       <div style={{ fontSize: '13.5px', fontWeight: '700', marginBottom: '8px', color: 'var(--ink-2)' }}>✨ 메인 악기</div>
                       <div className="chip-row" style={{ marginBottom: '16px' }}>
                         <span className="chip on" style={{ cursor: 'default' }}>핸드팬 (기본 포함)</span>
+                      </div>
+
+                      <div style={{ fontSize: '13.5px', fontWeight: '700', marginBottom: '8px', marginTop: '16px', color: 'var(--ink-2)' }}>🪘 핸드팬 스케일 (선택)</div>
+                      <div className="chip-row" style={{ marginBottom: '16px' }}>
+                        {HANDPAN_SCALES.map(scale => {
+                          const isSelected = selectedScale === scale.en;
+                          return (
+                            <button
+                              key={scale.id}
+                              type="button"
+                              className={`chip ${isSelected ? "on" : ""}`}
+                              onClick={() => setSelectedScale(isSelected ? "" : scale.en)}
+                            >
+                              {scale.label}
+                            </button>
+                          );
+                        })}
                       </div>
                       
                       <div style={{ fontSize: '13.5px', fontWeight: '700', marginBottom: '8px', color: 'var(--ink-2)' }}>🎻 추천 악기 (복수 선택)</div>
@@ -331,6 +375,48 @@ function MusicTab() {
                                 setSelectedNature(prev => [...prev, val]);
                               }
                               setNatureInput("");
+                            }
+                          }}
+                          style={{ padding: "0 16px", borderRadius: "6px", fontWeight: "bold" }}
+                        >
+                          추가
+                        </button>
+                      </div>
+
+                      <div style={{ fontSize: '13.5px', fontWeight: '700', marginBottom: '8px', marginTop: '24px', color: 'var(--ink-2)' }}>⏱ 템포 (BPM 또는 설명)</div>
+                      <div className="chip-row" style={{ marginBottom: "8px" }}>
+                        {selectedTempo && (
+                          <button
+                            type="button"
+                            className="chip on"
+                            onClick={() => setSelectedTempo("")}
+                          >
+                            {selectedTempo} ✕
+                          </button>
+                        )}
+                      </div>
+                      <div style={{ display: "flex", gap: "8px" }}>
+                        <input 
+                          type="text" 
+                          className="input" 
+                          placeholder="템포 입력 (예: 70 BPM, slow)" 
+                          value={tempoInput}
+                          onChange={(e) => setTempoInput(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' && tempoInput.trim()) {
+                              setSelectedTempo(tempoInput.trim());
+                              setTempoInput("");
+                            }
+                          }}
+                          style={{ flex: 1, padding: "8px 12px", borderRadius: "6px", border: "1px solid var(--line)", background: "var(--bg)", color: "var(--ink-1)" }}
+                        />
+                        <button 
+                          type="button" 
+                          className="btn-primary" 
+                          onClick={() => {
+                            if (tempoInput.trim()) {
+                              setSelectedTempo(tempoInput.trim());
+                              setTempoInput("");
                             }
                           }}
                           style={{ padding: "0 16px", borderRadius: "6px", fontWeight: "bold" }}
