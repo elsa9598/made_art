@@ -26,7 +26,18 @@ const MEDITATION_THEMES = [
       { id: "singing-bowl", label: "싱잉볼", en: "singing bowl" },
       { id: "female-humming", label: "부드러운 여성 허밍", en: "soft female humming" },
       { id: "ocean-drum", label: "오션드럼", en: "ocean drum" },
-      { id: "wind-chime", label: "윈드차임", en: "wind chimes" }
+      { id: "wind-chime", label: "윈드차임", en: "wind chimes" },
+      { id: "string-ensemble", label: "스트링 앙상블", en: "string ensemble" },
+      { id: "chorus-pad", label: "코러스 패드", en: "chorus pad" },
+      { id: "taiko", label: "타이코 드럼", en: "taiko drum" },
+      { id: "ethereal-synth", label: "에테리얼 신스", en: "ethereal synth" },
+      { id: "bell-texture", label: "벨 텍스처", en: "bell texture" },
+      { id: "glass-harmonica", label: "글래스 하모니카", en: "glass harmonica" },
+      { id: "ambient-fx", label: "앰비언트 FX", en: "ambient FX" },
+      { id: "frame-drum", label: "프레임 드럼", en: "frame drum" },
+      { id: "kalimba", label: "칼림바", en: "kalimba" },
+      { id: "lofi-pad", label: "로파이 패드", en: "lo-fi pad" },
+      { id: "vinyl-noise", label: "바이닐 노이즈", en: "vinyl noise" }
     ],
     nature: [
       { id: "wave", label: "파도소리", en: "ocean waves" },
@@ -51,7 +62,20 @@ const MEDITATION_THEMES = [
       { id: "tongue-drum", label: "텅드럼", en: "tongue drum" },
       { id: "rainstick", label: "레인스틱", en: "rainstick" },
       { id: "shruti-box", label: "슈루티 박스", en: "shruti box" },
-      { id: "bamboo-perc", label: "대나무 퍼커션", en: "bamboo percussion" }
+      { id: "bamboo-perc", label: "대나무 퍼커션", en: "bamboo percussion" },
+      { id: "string-ensemble", label: "스트링 앙상블", en: "string ensemble" },
+      { id: "chorus-pad", label: "코러스 패드", en: "chorus pad" },
+      { id: "taiko", label: "타이코 드럼", en: "taiko drum" },
+      { id: "ethereal-synth", label: "에테리얼 신스", en: "ethereal synth" },
+      { id: "bell-texture", label: "벨 텍스처", en: "bell texture" },
+      { id: "glass-harmonica", label: "글래스 하모니카", en: "glass harmonica" },
+      { id: "ambient-fx", label: "앰비언트 FX", en: "ambient FX" },
+      { id: "frame-drum", label: "프레임 드럼", en: "frame drum" },
+      { id: "sanjo-daegeum", label: "산조대금", en: "sanjo daegeum" },
+      { id: "wind-chime", label: "윈드차임", en: "wind chimes" },
+      { id: "ocean-drum", label: "오션 드럼", en: "ocean drum" },
+      { id: "lofi-pad", label: "로파이 패드", en: "lo-fi pad" },
+      { id: "vinyl-noise", label: "바이닐 노이즈", en: "vinyl noise" }
     ],
     nature: [
       { id: "rain", label: "빗소리", en: "rain sounds" },
@@ -78,7 +102,20 @@ const MEDITATION_THEMES = [
       { id: "frame-drum", label: "프레임드럼", en: "frame drum" },
       { id: "udu-drum", label: "우두드럼", en: "udu drum" },
       { id: "rav-drum", label: "RAV 드럼", en: "RAV drum" },
-      { id: "low-drone-pad", label: "낮은 드론 패드", en: "low drone pad" }
+      { id: "low-drone-pad", label: "낮은 드론 패드", en: "low drone pad" },
+      { id: "string-ensemble", label: "스트링 앙상블", en: "string ensemble" },
+      { id: "chorus-pad", label: "코러스 패드", en: "chorus pad" },
+      { id: "taiko", label: "타이코 드럼", en: "taiko drum" },
+      { id: "ethereal-synth", label: "에테리얼 신스", en: "ethereal synth" },
+      { id: "bell-texture", label: "벨 텍스처", en: "bell texture" },
+      { id: "glass-harmonica", label: "글래스 하모니카", en: "glass harmonica" },
+      { id: "ambient-fx", label: "앰비언트 FX", en: "ambient FX" },
+      { id: "kalimba", label: "칼림바", en: "kalimba" },
+      { id: "singing-bowl", label: "싱잉볼", en: "singing bowl" },
+      { id: "wind-chime", label: "윈드차임", en: "wind chimes" },
+      { id: "ocean-drum", label: "오션 드럼", en: "ocean drum" },
+      { id: "lofi-pad", label: "로파이 패드", en: "lo-fi pad" },
+      { id: "vinyl-noise", label: "바이닐 노이즈", en: "vinyl noise" }
     ],
     nature: [
       { id: "mountain-wind", label: "산바람", en: "mountain wind" },
@@ -104,7 +141,20 @@ const MEDITATION_THEMES = [
       { id: "ambient-guitar", label: "앰비언트 기타", en: "ambient guitar" },
       { id: "synth-pad", label: "신스 패드", en: "synth pad" },
       { id: "soft-cello", label: "부드러운 첼로", en: "soft cello" },
-      { id: "tape-noise", label: "테이프 질감 노이즈", en: "tape texture noise" }
+      { id: "tape-noise", label: "테이프 질감 노이즈", en: "tape texture noise" },
+      { id: "string-ensemble", label: "스트링 앙상블", en: "string ensemble" },
+      { id: "chorus-pad", label: "코러스 패드", en: "chorus pad" },
+      { id: "taiko", label: "타이코 드럼", en: "taiko drum" },
+      { id: "ethereal-synth", label: "에테리얼 신스", en: "ethereal synth" },
+      { id: "bell-texture", label: "벨 텍스처", en: "bell texture" },
+      { id: "glass-harmonica", label: "글래스 하모니카", en: "glass harmonica" },
+      { id: "ambient-fx", label: "앰비언트 FX", en: "ambient FX" },
+      { id: "frame-drum", label: "프레임 드럼", en: "frame drum" },
+      { id: "sanjo-daegeum", label: "산조대금", en: "sanjo daegeum" },
+      { id: "singing-bowl", label: "싱잉볼", en: "singing bowl" },
+      { id: "wind-chime", label: "윈드차임", en: "wind chimes" },
+      { id: "ocean-drum", label: "오션 드럼", en: "ocean drum" },
+      { id: "vinyl-noise", label: "바이닐 노이즈", en: "vinyl noise" }
     ],
     nature: [
       { id: "vinyl-noise", label: "부드러운 바이닐 노이즈", en: "soft vinyl noise" },
@@ -130,7 +180,13 @@ const MEDITATION_THEMES = [
       { id: "ethereal-synth", label: "에테리얼 신스", en: "ethereal synth" },
       { id: "bell-texture", label: "벨 텍스처", en: "bell texture" },
       { id: "glass-harmonica", label: "글래스 하모니카", en: "glass harmonica" },
-      { id: "ambient-fx", label: "앰비언트 FX", en: "ambient FX" }
+      { id: "ambient-fx", label: "앰비언트 FX", en: "ambient FX" },
+      { id: "kalimba", label: "칼림바", en: "kalimba" },
+      { id: "singing-bowl", label: "싱잉볼", en: "singing bowl" },
+      { id: "wind-chime", label: "윈드차임", en: "wind chimes" },
+      { id: "ocean-drum", label: "오션 드럼", en: "ocean drum" },
+      { id: "lofi-pad", label: "로파이 패드", en: "lo-fi pad" },
+      { id: "vinyl-noise", label: "바이닐 노이즈", en: "vinyl noise" }
     ],
     nature: [
       { id: "space-wind", label: "우주 바람 소리", en: "space wind sounds" },
@@ -146,6 +202,7 @@ function MusicTab() {
   const [selectedInst, setSelectedInst] = useStateM([]);
   const [selectedNature, setSelectedNature] = useStateM([]);
   const [natureInput, setNatureInput] = useStateM("");
+  const [instInput, setInstInput] = useStateM("");
   const [tempoInput, setTempoInput] = useStateM("");
   const [selectedTempo, setSelectedTempo] = useStateM("");
   const [selectedScale, setSelectedScale] = useStateM("");
@@ -169,6 +226,7 @@ function MusicTab() {
     setSelectedInst([]);
     setSelectedNature([]);
     setNatureInput("");
+    setInstInput("");
     setTempoInput("");
     setSelectedTempo("");
     setSelectedScale("");
@@ -255,6 +313,7 @@ function MusicTab() {
     setSelectedInst([]);
     setSelectedNature([]);
     setNatureInput("");
+    setInstInput("");
     setTempoInput("");
     setSelectedTempo("");
     setSelectedScale("");
@@ -357,7 +416,7 @@ function MusicTab() {
                       </div>
                       
                       <div style={{ fontSize: '13.5px', fontWeight: '700', marginBottom: '8px', color: 'var(--ink-2)' }}>🎻 추천 악기 (복수 선택)</div>
-                      <div className="chip-row" style={{ marginBottom: '16px' }}>
+                      <div className="chip-row" style={{ marginBottom: '8px' }}>
                         {theme.instruments.map(inst => {
                           const isSelected = selectedInst.includes(inst.en);
                           return (
@@ -371,6 +430,54 @@ function MusicTab() {
                             </button>
                           );
                         })}
+                        {selectedInst
+                          .filter(si => !theme.instruments.find(i => i.en === si))
+                          .map(customSi => (
+                            <button
+                              key={customSi}
+                              type="button"
+                              className="chip on"
+                              onClick={() => toggleInst(customSi)}
+                            >
+                              {customSi} ✕
+                            </button>
+                          ))
+                        }
+                      </div>
+                      <div style={{ display: "flex", gap: "8px", marginBottom: "16px" }}>
+                        <input 
+                          type="text" 
+                          className="input" 
+                          placeholder="악기 직접 입력 (예: violin, acoustic guitar)" 
+                          value={instInput}
+                          onChange={(e) => setInstInput(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' && instInput.trim()) {
+                              const val = instInput.trim();
+                              if (!selectedInst.includes(val)) {
+                                setSelectedInst(prev => [...prev, val]);
+                              }
+                              setInstInput("");
+                            }
+                          }}
+                          style={{ flex: 1, padding: "8px 12px", borderRadius: "6px", border: "1px solid var(--line)", background: "var(--bg)", color: "var(--ink-1)" }}
+                        />
+                        <button 
+                          type="button" 
+                          className="btn-primary" 
+                          onClick={() => {
+                            if (instInput.trim()) {
+                              const val = instInput.trim();
+                              if (!selectedInst.includes(val)) {
+                                setSelectedInst(prev => [...prev, val]);
+                              }
+                              setInstInput("");
+                            }
+                          }}
+                          style={{ padding: "0 16px", borderRadius: "6px", fontWeight: "bold" }}
+                        >
+                          추가
+                        </button>
                       </div>
 
                       <div style={{ fontSize: '13.5px', fontWeight: '700', marginBottom: '8px', color: 'var(--ink-2)' }}>🍃 자연음 / 앰비언트 요소 (복수 선택)</div>
