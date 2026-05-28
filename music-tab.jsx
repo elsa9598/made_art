@@ -276,8 +276,14 @@ function MusicTab() {
     
     if (selectedInst.length > 0) {
       lines.push("");
-      lines.push("[RECOMMENDED INSTRUMENTS]");
+      lines.push("[SUPPORTING INSTRUMENTS — MUST INCLUDE]");
+      lines.push("The following instruments MUST be clearly audible in the final mix. They are NOT optional suggestions — each one must appear at least once during the track.");
       lines.push(`• ${selectedInst.join(", ")}`);
+      lines.push("");
+      lines.push("Production Direction:");
+      lines.push("- Layer these instruments naturally alongside the Handpan, not hidden in the background.");
+      lines.push("- Each supporting instrument should have at least one recognizable solo moment or prominent phrase.");
+      lines.push("- Balance the mix so that supporting instruments occupy 30-40% of the sonic space.");
     }
     
     if (selectedNature.length > 0) {
