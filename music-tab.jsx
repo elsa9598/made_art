@@ -181,6 +181,8 @@ function MusicTab() {
     
     const theme = MEDITATION_THEMES.find(t => t.id === activeTheme);
     const lines = [];
+    lines.push("Reflect the emotions and feelings of the attached image into the music generation.");
+    lines.push("");
     lines.push("=== ODUNGI HARU — MUSIC PROMPT ===");
     lines.push("");
     lines.push(`[THEME] ${theme.title} (${theme.titleKo})`);
