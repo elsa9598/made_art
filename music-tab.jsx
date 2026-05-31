@@ -11,9 +11,8 @@ const HANDPAN_SCALES = [
 const MEDITATION_THEMES = [
   {
     id: "moonlight-healing",
-    icon: "🌙",
-    title: "Sleep Music Handpan Healing",
-    titleKo: "수면음악 핸드팬 힐링",
+    title: "수면음악 핸드팬 힐링",
+    titleEn: "Sleep Music Handpan Healing",
     desc: "잠 잘 오는 깊은 밤",
     promptEn: "Sleep Music Handpan Healing, deep night for good sleep, relaxing ambient, deep sleep meditation.",
     instruments: [
@@ -48,9 +47,8 @@ const MEDITATION_THEMES = [
   },
   {
     id: "nature-meditation",
-    icon: "🌲",
-    title: "Nature Meditation Music Handpan",
-    titleKo: "자연 명상음악 핸드팬",
+    title: "자연 명상음악 핸드팬",
+    titleEn: "Nature Meditation Music Handpan",
     desc: "마음챙김 힐링",
     promptEn: "Nature Meditation Music Handpan, mindfulness healing, peaceful forest atmosphere.",
     instruments: [
@@ -87,9 +85,8 @@ const MEDITATION_THEMES = [
   },
   {
     id: "ethnic-healing",
-    icon: "🏮",
-    title: "Korean Traditional Healing Music Handpan",
-    titleKo: "국악 힐링음악 핸드팬",
+    title: "국악 힐링음악 핸드팬",
+    titleEn: "Korean Traditional Healing Music Handpan",
     desc: "마음 치유 명상",
     promptEn: "Korean Traditional Healing Music Handpan, mind healing meditation, ethnic ambient.",
     instruments: [
@@ -126,9 +123,8 @@ const MEDITATION_THEMES = [
   },
   {
     id: "deep-focus",
-    icon: "📖",
-    title: "Focus & Study Music Handpan",
-    titleKo: "집중 공부음악 핸드팬",
+    title: "집중 공부음악 핸드팬",
+    titleEn: "Focus & Study Music Handpan",
     desc: "작업 백색소음",
     promptEn: "Focus & Study Music Handpan, working white noise, deep concentration ambient.",
     instruments: [
@@ -164,9 +160,8 @@ const MEDITATION_THEMES = [
   },
   {
     id: "dreamscape",
-    icon: "🌌",
-    title: "Dreamy Healing Music Handpan",
-    titleKo: "몽환 힐링음악 핸드팬",
+    title: "몽환 힐링음악 핸드팬",
+    titleEn: "Dreamy Healing Music Handpan",
     desc: "스트레스 해소",
     promptEn: "Dreamy Healing Music Handpan, stress relief, cinematic fantasy ambient.",
     instruments: [
@@ -243,9 +238,9 @@ function MusicTab() {
     lines.push("");
     lines.push("=== ODUNGI HARU — MUSIC PROMPT ===");
     lines.push("");
-    lines.push(`[GENRE / THEME]`);
-    lines.push(`Core Style: ${theme.title}`);
-    lines.push(`Keywords: ${theme.promptEn}, ${theme.titleKo}, ${theme.desc}`);
+    lines.push(`[THEME]`);
+    lines.push(`${theme.title} (${theme.titleEn})`);
+    lines.push(`Keywords: ${theme.promptEn}, ${theme.desc}`);
     lines.push("");
     
     lines.push("[MAIN INSTRUMENT]");
@@ -369,13 +364,17 @@ function MusicTab() {
                     onClick={() => selectTheme(theme.id)}
                     style={{ width: '100%', textAlign: 'left' }}
                   >
-                    <div className="theme-sub-top">
-                      <span className="theme-sub-label" style={{ fontSize: '16px' }}>
-                        {theme.icon} {theme.title} <span style={{fontSize: '13px', color: 'var(--ink-3)', marginLeft: '6px', fontWeight: 'normal'}}>{theme.titleKo}</span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                      <span style={{ fontSize: '16px', fontWeight: 'bold' }}>
+                        {theme.title}
                       </span>
-                      {isOn && <span className="theme-sub-check">✓</span>}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ fontSize: '14px', color: 'var(--ink-3)' }}>
+                          {theme.desc}
+                        </span>
+                        {isOn && <span className="theme-sub-check" style={{ color: 'var(--accent)' }}>✓</span>}
+                      </div>
                     </div>
-                    <div className="theme-sub-desc">{theme.desc}</div>
                   </button>
                   
                   {isOn && (
