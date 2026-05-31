@@ -294,6 +294,15 @@ function MusicTab() {
       lines.push(`• ${selectedTempo}`);
     }
 
+    if (activeTheme === "nature-meditation") {
+      lines.push("");
+      lines.push("[NATURE MEDITATION — SPECIAL DIRECTIVE]");
+      lines.push("Nature sounds are the MAIN element of this track. Add a white noise pad layer for ambient depth.");
+      lines.push("The Handpan must occupy only 10% of the nature sound volume — bass register only, serving as a subtle low-end foundation.");
+      lines.push("Set the tempo to exactly 50 BPM.");
+      lines.push("Generate a nature meditation music piece with ABSOLUTELY NO dissonance — every note and texture must blend harmoniously.");
+    }
+
     lines.push("");
     lines.push("[LENGTH & STRUCTURE]");
     lines.push("Target total duration is approximately 3 minutes. Structure the arrangement to fit naturally within this length, without abrupt cuts.");
