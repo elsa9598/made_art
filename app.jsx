@@ -325,6 +325,7 @@ function PromptOutput({ text, filename = "prompt.txt" }) {
 
 // 메인 탭 컨테이너
 function App() {
+  const [mainTab, setMainTab] = useState("image");
   const [tweak, setTweak] = useTweaks(
     /*EDITMODE-BEGIN*/ {
       theme: "cream",
@@ -342,24 +343,41 @@ function App() {
 
   return (
     <div className="app">
-      <TopBar />
+      <TopBar currentTab={mainTab} onTabChange={setMainTab} />
       <main className="main-wrap">
-        <MusicTab />
+        {mainTab === "image" && <ImageTab />}
+        {mainTab === "music" && <MusicTab />}
       </main>
       <TweaksUI tweak={tweak} setTweak={setTweak} />
     </div>
   );
 }
 
-function TopBar() {
+function TopBar({ currentTab, onTabChange }) {
   return (
     <header className="topbar">
       <div className="topbar-brand">
         <span className="logo">🥬</span>
         <div>
           <div className="topbar-title">오둥이 하루</div>
-          <div className="topbar-sub">우리집 식구들을 위한 음악 생성 프롬프트 빌더</div>
+          <div className="topbar-sub">우리집 식구들을 위한 프롬프트 빌더</div>
         </div>
+      </div>
+      <div className="topbar-nav" style={{ display: 'flex', gap: '8px', marginLeft: 'auto', marginRight: '16px' }}>
+        <button 
+          className={`btn-ghost ${currentTab === 'image' ? 'on' : ''}`} 
+          onClick={() => onTabChange('image')}
+          style={currentTab === 'image' ? { background: 'var(--surface-3)', color: 'var(--ink-1)', fontWeight: 'bold' } : {}}
+        >
+          🎨 그림
+        </button>
+        <button 
+          className={`btn-ghost ${currentTab === 'music' ? 'on' : ''}`} 
+          onClick={() => onTabChange('music')}
+          style={currentTab === 'music' ? { background: 'var(--surface-3)', color: 'var(--ink-1)', fontWeight: 'bold' } : {}}
+        >
+          🎵 음악
+        </button>
       </div>
     </header>
   );
