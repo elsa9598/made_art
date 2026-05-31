@@ -12,10 +12,10 @@ const MEDITATION_THEMES = [
   {
     id: "moonlight-healing",
     icon: "🌙",
-    title: "Moonlight Healing",
-    titleKo: "달빛 치유 앰비언트",
-    desc: "달빛, 바다, 감성 치유, 몽환적인 밤 분위기",
-    promptEn: "Moonlight Healing ambient music. A dreamy night atmosphere focusing on moonlight, the ocean, and emotional healing.",
+    title: "Sleep Music Handpan Healing",
+    titleKo: "수면음악 핸드팬 힐링",
+    desc: "잠 잘 오는 깊은 밤",
+    promptEn: "Sleep Music Handpan Healing, deep night for good sleep, relaxing ambient, deep sleep meditation.",
     instruments: [
       { id: "sanjo-daegeum", label: "산조대금", en: "sanjo daegeum" },
       { id: "cello", label: "첼로", en: "cello" },
@@ -49,10 +49,10 @@ const MEDITATION_THEMES = [
   {
     id: "nature-meditation",
     icon: "🌲",
-    title: "Nature Meditation",
-    titleKo: "자연 명상 앰비언트",
-    desc: "숲속 명상, 깊은 호흡, 평화로운 자연 분위기",
-    promptEn: "Nature Meditation ambient music. Deep breathing and a peaceful forest atmosphere.",
+    title: "Nature Meditation Music Handpan",
+    titleKo: "자연 명상음악 핸드팬",
+    desc: "마음챙김 힐링",
+    promptEn: "Nature Meditation Music Handpan, mindfulness healing, peaceful forest atmosphere.",
     instruments: [
       { id: "daegeum", label: "대금", en: "daegeum" },
       { id: "native-flute", label: "네이티브 플루트", en: "native american flute" },
@@ -88,10 +88,10 @@ const MEDITATION_THEMES = [
   {
     id: "ethnic-healing",
     icon: "🏮",
-    title: "Ethnic Healing",
-    titleKo: "국악·에스닉 힐링 앰비언트",
-    desc: "한국적 감성, 영적인 울림, 전통과 현대의 융합",
-    promptEn: "Ethnic Healing ambient music. A fusion of Korean traditional emotions, spiritual resonance, and modern ambient elements.",
+    title: "Korean Traditional Healing Music Handpan",
+    titleKo: "국악 힐링음악 핸드팬",
+    desc: "마음 치유 명상",
+    promptEn: "Korean Traditional Healing Music Handpan, mind healing meditation, ethnic ambient.",
     instruments: [
       { id: "sanjo-daegeum", label: "산조대금", en: "sanjo daegeum" },
       { id: "gayageum", label: "가야금", en: "gayageum" },
@@ -127,10 +127,10 @@ const MEDITATION_THEMES = [
   {
     id: "deep-focus",
     icon: "📖",
-    title: "Deep Focus Ambient",
-    titleKo: "집중·창작 몰입 앰비언트",
-    desc: "집중, 드로잉, 독서, 창작 몰입",
-    promptEn: "Deep Focus Ambient music. Designed for deep concentration, drawing, reading, and creative flow.",
+    title: "Focus & Study Music Handpan",
+    titleKo: "집중 공부음악 핸드팬",
+    desc: "작업 백색소음",
+    promptEn: "Focus & Study Music Handpan, working white noise, deep concentration ambient.",
     instruments: [
       { id: "soft-piano", label: "소프트 피아노", en: "soft piano" },
       { id: "epiano", label: "일렉트릭 피아노", en: "electric piano" },
@@ -165,10 +165,10 @@ const MEDITATION_THEMES = [
   {
     id: "dreamscape",
     icon: "🌌",
-    title: "Dreamscape Cinematic",
-    titleKo: "꿈·판타지 시네마틱 앰비언트",
-    desc: "판타지 세계, 별빛, 감성 서사, 영화적 여행",
-    promptEn: "Dreamscape Cinematic Ambient music. An emotional and cinematic journey through a fantasy world filled with starlight.",
+    title: "Dreamy Healing Music Handpan",
+    titleKo: "몽환 힐링음악 핸드팬",
+    desc: "스트레스 해소",
+    promptEn: "Dreamy Healing Music Handpan, stress relief, cinematic fantasy ambient.",
     instruments: [
       { id: "sanjo-daegeum", label: "산조대금", en: "sanjo daegeum" },
       { id: "cello", label: "첼로", en: "cello" },
@@ -243,8 +243,9 @@ function MusicTab() {
     lines.push("");
     lines.push("=== ODUNGI HARU — MUSIC PROMPT ===");
     lines.push("");
-    lines.push(`[THEME] ${theme.title} (${theme.titleKo})`);
-    lines.push(`Description: ${theme.promptEn}`);
+    lines.push(`[GENRE / THEME]`);
+    lines.push(`Core Style: ${theme.title}`);
+    lines.push(`Keywords: ${theme.promptEn}, ${theme.titleKo}, ${theme.desc}`);
     lines.push("");
     
     lines.push("[MAIN INSTRUMENT]");
