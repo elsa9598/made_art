@@ -298,8 +298,6 @@ function MusicTab() {
       lines.push("");
       lines.push("[SLEEP MUSIC — SPECIAL DIRECTIVE]");
       lines.push("Set the tempo to exactly 50 BPM.");
-      lines.push("Include low-pitched, gentle female humming (NO lyrics — only soft vocalizations using randomly chosen 2 syllables from: 'mmm', 'aah', 'ooh', 'uuh').");
-      lines.push("The female humming must be distributed across 50% of the total music duration, weaving in and out naturally throughout the track.");
     }
 
     if (activeTheme === "nature-meditation") {
