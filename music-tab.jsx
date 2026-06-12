@@ -14,6 +14,7 @@ const MEDITATION_THEMES = [
     title: "수면음악 핸드팬 힐링",
     titleEn: "Sleep Music Handpan Healing",
     desc: "잠 잘 오는 깊은 밤",
+    descEn: "deep night atmosphere for restful sleep",
     promptEn: "Sleep Music Handpan Healing, deep night for good sleep, relaxing ambient, deep sleep meditation.",
     instruments: [
       { id: "sanjo-daegeum", label: "산조대금", en: "sanjo daegeum" },
@@ -50,6 +51,7 @@ const MEDITATION_THEMES = [
     title: "자연 명상음악 핸드팬",
     titleEn: "Nature Meditation Music Handpan",
     desc: "마음챙김 힐링",
+    descEn: "mindfulness healing",
     promptEn: "Nature Meditation Music Handpan, mindfulness healing, peaceful forest atmosphere.",
     instruments: [
       { id: "daegeum", label: "대금", en: "daegeum" },
@@ -88,6 +90,7 @@ const MEDITATION_THEMES = [
     title: "국악 힐링음악 핸드팬",
     titleEn: "Korean Traditional Healing Music Handpan",
     desc: "마음 치유 명상",
+    descEn: "mind healing meditation",
     promptEn: "Korean Traditional Healing Music Handpan, mind healing meditation, ethnic ambient.",
     instruments: [
       { id: "sanjo-daegeum", label: "산조대금", en: "sanjo daegeum" },
@@ -126,6 +129,7 @@ const MEDITATION_THEMES = [
     title: "집중 공부음악 핸드팬",
     titleEn: "Focus & Study Music Handpan",
     desc: "작업 백색소음",
+    descEn: "working white noise for deep concentration",
     promptEn: "Focus & Study Music Handpan, working white noise, deep concentration ambient.",
     instruments: [
       { id: "soft-piano", label: "소프트 피아노", en: "soft piano" },
@@ -163,6 +167,7 @@ const MEDITATION_THEMES = [
     title: "몽환 힐링음악 핸드팬",
     titleEn: "Dreamy Healing Music Handpan",
     desc: "스트레스 해소",
+    descEn: "stress relief",
     promptEn: "Dreamy Healing Music Handpan, stress relief, cinematic fantasy ambient.",
     instruments: [
       { id: "sanjo-daegeum", label: "산조대금", en: "sanjo daegeum" },
@@ -239,8 +244,8 @@ function MusicTab() {
     lines.push("=== ODUNGI HARU — MUSIC PROMPT ===");
     lines.push("");
     lines.push(`[THEME]`);
-    lines.push(`${theme.title} (${theme.titleEn})`);
-    lines.push(`Keywords: ${theme.promptEn}, ${theme.desc}`);
+    lines.push(theme.titleEn);
+    lines.push(`Keywords: ${theme.promptEn}, ${theme.descEn}`);
     lines.push("");
     
     lines.push("[MAIN INSTRUMENT]");
