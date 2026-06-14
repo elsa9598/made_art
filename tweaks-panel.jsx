@@ -47,8 +47,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 const __TWEAKS_STYLE = `
-  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
-    max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+  .twk-panel{position:fixed;right:16px;bottom:calc(16px + var(--mobile-bottom-safe, 0px));z-index:2147483646;width:280px;
+    max-height:calc(100vh - 32px - var(--mobile-bottom-safe, 0px));display:flex;flex-direction:column;
     transform:scale(var(--dc-inv-zoom,1));transform-origin:bottom right;
     background:rgba(250,249,247,.78);color:#29261b;
     -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
@@ -219,6 +219,11 @@ function TweaksPanel({ title = 'Tweaks', noDeckControls = false, children }) {
     setRailVisible(on);
     window.postMessage({ type: '__deck_rail_visible', on }, '*');
   };
+  const getBottomSafe = React.useCallback(() => {
+    const raw = getComputedStyle(document.documentElement).getPropertyValue('--mobile-bottom-safe');
+    const parsed = parseFloat(raw);
+    return Number.isFinite(parsed) ? parsed : 16;
+  }, []);
   const offsetRef = React.useRef({ x: 16, y: 16 });
   const PAD = 16;
 
@@ -227,14 +232,15 @@ function TweaksPanel({ title = 'Tweaks', noDeckControls = false, children }) {
     if (!panel) return;
     const w = panel.offsetWidth, h = panel.offsetHeight;
     const maxRight = Math.max(PAD, window.innerWidth - w - PAD);
-    const maxBottom = Math.max(PAD, window.innerHeight - h - PAD);
+    const bottomPad = Math.max(PAD, getBottomSafe());
+    const maxBottom = Math.max(bottomPad, window.innerHeight - h - bottomPad);
     offsetRef.current = {
       x: Math.min(maxRight, Math.max(PAD, offsetRef.current.x)),
-      y: Math.min(maxBottom, Math.max(PAD, offsetRef.current.y)),
+      y: Math.min(maxBottom, Math.max(bottomPad, offsetRef.current.y)),
     };
     panel.style.right = offsetRef.current.x + 'px';
     panel.style.bottom = offsetRef.current.y + 'px';
-  }, []);
+  }, [getBottomSafe]);
 
   React.useEffect(() => {
     if (!open) return;
