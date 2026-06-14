@@ -1,4 +1,4 @@
-// 오둥이 하루 — 메인 앱
+// 그림그리기 — 메인 앱
 // 그림/음악/4컷카툰 프롬프트 빌더 (3 탭)
 
 const { useState, useMemo, useEffect, useRef } = React;
@@ -214,7 +214,7 @@ function Sidebar({ items, active, onJump }) {
       <div className="brand">
         <div className="brand-mark">🥬</div>
         <div className="brand-text">
-          <div className="brand-title">오둥이 하루</div>
+          <div className="brand-title">그림그리기</div>
           <div className="brand-sub">프롬프트 빌더</div>
         </div>
       </div>
@@ -359,7 +359,7 @@ function TopBar({ currentTab, onTabChange }) {
       <div className="topbar-brand">
         <span className="logo">🥬</span>
         <div>
-          <div className="topbar-title">오둥이 하루</div>
+          <div className="topbar-title">그림그리기</div>
           <div className="topbar-sub">우리집 식구들을 위한 프롬프트 빌더</div>
         </div>
       </div>

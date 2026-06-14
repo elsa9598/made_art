@@ -1,6 +1,6 @@
 {
-  "name": "오둥이 하루 프롬프트 빌더",
-  "short_name": "오둥이 하루",
+  "name": "그림그리기 프롬프트 빌더",
+  "short_name": "그림그리기",
   "description": "오둥이 캐릭터 기반 그림과 음악 생성 프롬프트 빌더",
   "lang": "ko-KR",
   "start_url": ".",
