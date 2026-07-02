@@ -46,9 +46,51 @@ const ART_STYLE_OPTIONS = [
 const ART_STYLE_CONTROL =
   "Apply the chosen art style only to rendering, brushwork, color, texture, material surface, and background treatment. Keep the requested subject, species, anatomy, pose, clothing, facial identity, composition, and scene clearly recognizable and consistent.";
 
+const ODUNGI_CHARACTER_OPTIONS = [
+  {
+    id: "kimchi",
+    ko: "김치",
+    short: "Scottish Fold cat",
+    en:
+      "Character design 1 - white Scottish Fold cat: all-white fluffy coat, distinctive folded flat ears pressed close to a very round chubby head, sharp yellow-amber half-lidded eyes with a perpetually grumpy stern expression, small pink heart-shaped nose, tiny freckles near the nose, short whisker lines, plump round chubby body, short stubby legs, soft rounded paws, thick fluffy tail, always looking displeased and unimpressed, minimalist clean cartoon style.",
+  },
+  {
+    id: "sangchu",
+    ko: "상추",
+    short: "Old English Sheepdog",
+    en:
+      "Character design 2 - Old English Sheepdog: large sturdy heavy-set 35 kg breed, entire head and both ears must be pure solid white with no gray markings, white fluffy chest and white front legs, dark charcoal-gray fur starting strictly from the shoulders and covering the back and hindquarters, very cute big round gentle puppy eyes with heterochromia: one soft brown eye and one soft blue eye, sparkling kind expression, rounded fluffy muzzle, large soft body, thick shaggy fur texture, entirely solid dark charcoal-gray tail that is very short and stubby, absolutely no white color at the tail tip, gentle loyal protector personality.",
+  },
+  {
+    id: "yeolmu",
+    ko: "열무",
+    short: "Papillon dog",
+    en:
+      "Character design 3 - Papillon dog: small dainty 5 kg toy breed, brown-and-white fur pattern, very large butterfly-shaped ears with long brown ear fur and soft feathered edges, warm brown round expressive eyes, white blaze running down the center of the face, white muzzle, white chest and belly, brown patches on the face and body, fluffy curled tail with white and brown fur, elegant tiny body, gentle cheerful expression, cute refined cartoon style.",
+  },
+  {
+    id: "baechu",
+    ko: "배추",
+    short: "American Cocker Spaniel",
+    en:
+      "Character design 4 - American Cocker Spaniel: medium-sized 15 kg dog, golden beige and cream silky wavy fur, long floppy ears with thick flowing wavy curls, large warm gentle brown eyes, small rounded brown-black nose, sweet innocent smiling expression, fluffy cream chest fur, rounded forehead, soft golden-tan coloring throughout the body, short soft tail, plush cute cartoon proportions, warm friendly personality.",
+  },
+  {
+    id: "kkami",
+    ko: "까미",
+    short: "gray tuxedo cat",
+    en:
+      "Character design 5 - gray tuxedo cat: dark charcoal-gray body with white chest and white belly, round face with a dark charcoal-gray mask pattern over the head and around the eyes, white muzzle area, distinctive thick black mustache marking above the mouth, sharp yellow-amber half-lidded eyes with an intense tsundere gaze, small pink heart-shaped nose, pink inner ears, pink heart-shaped paw pads, compact muscular body, long dark-gray tail, grumpy exterior but secretly caring personality, bold clean cartoon line style.",
+  },
+];
+
+const CHARACTER_CONSISTENCY_CONTROL =
+  "Use the selected character designs exactly as written. Do not mix fur patterns, eye colors, ear shapes, tails, species, body sizes, or personalities between characters. Do not replace these characters with vegetables, food, objects, or humans. Maintain perfect visual consistency for each selected character across every image or panel.";
+
 function ImageTab() {
   const { D, Section, Sidebar, ChipPicker, PromptOutput, labelToEn } = window;
 
+  const [selectedCharacters, setSelectedCharacters] = useStateI([]);
   const [subject, setSubject] = useStateI("");
   const [desc, setDesc] = useStateI("");
   const [lighting, setLighting] = useStateI([]);
@@ -58,9 +100,19 @@ function ImageTab() {
   const [artStyleId, setArtStyleId] = useStateI("watercolor");
 
   const selectedArtStyle = ART_STYLE_OPTIONS.find((style) => style.id === artStyleId);
+  const selectedCharacterDetails = ODUNGI_CHARACTER_OPTIONS.filter((character) =>
+    selectedCharacters.includes(character.id)
+  );
+
+  const toggleCharacter = (id) => {
+    setSelectedCharacters((current) =>
+      current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
+    );
+  };
 
   const reset = () => {
     if (!confirm("모든 선택을 초기화할까요?")) return;
+    setSelectedCharacters([]);
     setSubject("");
     setDesc("");
     setLighting([]);
@@ -74,6 +126,15 @@ function ImageTab() {
     const lines = [];
     lines.push("=== ODUNGI HARU — IMAGE PROMPT ===");
     lines.push("");
+
+    if (selectedCharacterDetails.length > 0) {
+      lines.push("[CHARACTERS - PERFECT CONSISTENCY]");
+      lines.push(CHARACTER_CONSISTENCY_CONTROL);
+      selectedCharacterDetails.forEach((character) => {
+        lines.push(character.en);
+      });
+      lines.push("");
+    }
     
     if (subject) lines.push(`[SUBJECT]\n${subject}\n`);
     if (desc) lines.push(`[DESCRIPTION]\n${desc}\n`);
@@ -104,7 +165,7 @@ function ImageTab() {
     }
 
     return lines.join("\n");
-  }, [subject, desc, lighting, camera, depthOfField, selectedArtStyle, aspectRatio]);
+  }, [selectedCharacterDetails, subject, desc, lighting, camera, depthOfField, selectedArtStyle, aspectRatio]);
 
   const navItems = [
     { id: "i-input", title: "프롬프트 설정" },
@@ -133,8 +194,32 @@ function ImageTab() {
           <p>선택한 아트 스타일을 반영한 그림 생성 프롬프트를 만듭니다.</p>
         </div>
 
-        <Section id="i-input" title="1. 프롬프트 설정" hint="주제, 묘사, 빛, 카메라, 심도, 비율을 설정하세요.">
+        <Section id="i-input" title="1. 프롬프트 설정" hint="오둥이, 주제, 묘사, 빛, 카메라, 심도, 비율을 설정하세요.">
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div>
+              <div className="field-label-row">
+                <div className="field-label">오둥이 선택 (Characters)</div>
+                <div className="field-count">{selectedCharacters.length}명 선택</div>
+              </div>
+              <div className="odungi-character-grid">
+                {ODUNGI_CHARACTER_OPTIONS.map((character) => {
+                  const on = selectedCharacters.includes(character.id);
+                  return (
+                    <button
+                      key={character.id}
+                      type="button"
+                      className={"odungi-character-button" + (on ? " on" : "")}
+                      onClick={() => toggleCharacter(character.id)}
+                      title={character.en}
+                    >
+                      <span className="odungi-character-name">{character.ko}</span>
+                      <span className="odungi-character-kind">{character.short}</span>
+                      {on && <span className="odungi-character-check">✓</span>}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
             
             <div>
               <div style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '8px', color: 'var(--ink-2)' }}>주제 (Subject)</div>
@@ -254,4 +339,4 @@ function ImageTab() {
   );
 }
 
-Object.assign(window, { ImageTab, ART_STYLE_OPTIONS });
+Object.assign(window, { ImageTab, ART_STYLE_OPTIONS, ODUNGI_CHARACTER_OPTIONS });
