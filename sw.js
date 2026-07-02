@@ -1,4 +1,4 @@
-const CACHE_NAME = "odungi-haru-pwa-v2";
+const CACHE_NAME = "odungi-haru-pwa-v3";
 const APP_SHELL = [
   "./",
   "./index.html",

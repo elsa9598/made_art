@@ -15,33 +15,36 @@ const ART_STYLE_OPTIONS = [
     id: "watercolor",
     ko: "1. 웻온웻 수채화",
     en:
-      "wet-on-wet watercolor where color edges bleed naturally, pigment spreading on pre-wetted paper, color-mass expression rather than fine detail, bleeds and bokeh used together, semi-abstract treatment that melts away some outlines, light reflections treated like watercolor stains, emphasized paper grain, transparent color layers glazed multiple times, very limited focal area, out-of-focus subjects melted into color masses without holding their form, light bleeding into circular bokeh, distant backgrounds with detail removed, expressed like boundary-dissolved watercolor blots.",
+      "Wet-on-wet watercolor on pre-wetted paper, with soft bleeding color edges, natural pigment blooms, transparent layered washes, visible paper grain, and luminous stains of reflected light. Use color masses and soft bokeh in the background and non-focal areas, while keeping the main subject readable inside a small clear focal area. Details should be simplified into gentle watercolor shapes, with distant scenery dissolved into atmospheric washes rather than sharp linework.",
   },
   {
     id: "impasto",
     ko: "2. 마티에르 유화",
     en:
-      "oil painting in a rich impasto and matiere technique, thick layered paint built up with brushes and palette knives, sculptural ridges of pigment standing visibly above the canvas surface, tactile three-dimensional texture, uneven brush marks and knife strokes catching light and shadow, dense buttery paint, layered glazes between raised strokes, expressive surface relief, visible canvas tooth beneath heavy paint passages, luminous highlights sitting on top of darker underlayers, dramatic physical paint presence rather than smooth digital rendering.",
+      "Impasto oil painting with a strong sense of matiere and physical surface texture. Build the image from thick layered oil paint, palette-knife marks, raised brush ridges, visible canvas tooth, and sculptural pigment relief that catches light and shadow. Use dense buttery paint, broken strokes, layered glazing over darker underpainting, and tactile highlights placed on top of the paint surface. The result should feel like a hand-painted canvas with dimensional material presence, not a smooth digital illustration.",
   },
   {
     id: "ink-wash",
     ko: "3. 수묵담채화",
     en:
-      "East Asian ink wash and light-color painting, sumi-e inspired brushwork, decisive one-stroke calligraphic gestures, varied ink density from deep black to pale silvery gray, controlled brush pressure and ink load within each stroke, soft mineral-color washes over absorbent paper, natural feathering where ink meets water, generous negative space, simplified forms captured through essence rather than detail, atmospheric mist, expressive dry-brush texture, subtle tonal gradation, elegant restraint, the feeling of a single unrepeatable brush movement.",
+      "East Asian ink-and-light-color painting in the spirit of sumukhwa and sumi-e, using decisive calligraphic brushstrokes, controlled ink load, and expressive pressure changes within each stroke. Show a full range of ink tones from deep black to pale gray, with soft diluted washes, dry-brush texture, natural feathering on absorbent paper, and restrained mineral color accents. Forms should be simplified with elegant negative space and atmospheric mist, capturing the essence of the subject through brush rhythm rather than excessive detail.",
   },
   {
     id: "abstract",
     ko: "4. 추상화",
     en:
-      "abstract painting technique focused on color, form, gesture, texture, rhythm, and composition rather than literal representation, recognizable details reduced into expressive shapes and visual energy, layered translucent and opaque passages, dynamic brush movement, balanced tension between hard edges and dissolved edges, gestural marks, scraped textures, color-field relationships, spatial ambiguity, emotional atmosphere carried by contrast, scale, repetition, and negative space, subject transformed into a sophisticated non-literal visual composition.",
+      "Controlled semi-abstract painting that emphasizes color, form, gesture, rhythm, texture, and composition while preserving the subject as recognizable. Simplify nonessential details into expressive shapes, layered translucent and opaque color fields, gestural brush marks, scraped textures, and a balance of hard edges and dissolved edges. Use contrast, scale, repetition, negative space, and spatial ambiguity to create emotional atmosphere. Abstract the background and supporting shapes more strongly than the main subject.",
   },
   {
     id: "colored-pencil",
     ko: "5. 색연필",
     en:
-      "colored pencil illustration technique with carefully layered pigment on textured paper, visible paper tooth, fine hatching and cross-hatching, gradual tonal buildup from light pressure to dense color, delicate directional strokes following form, burnished areas where waxy pigment is polished into a smooth luminous surface, soft blended gradients beside crisp pencil lines, subtle color mixing through transparent layers, hand-drawn tactile texture, precise highlights preserved, richly detailed but still visibly made with colored pencils.",
+      "Colored pencil illustration on textured drawing paper, with visible paper tooth, carefully layered pigment, fine hatching and cross-hatching, and gradual tonal buildup from light pressure to rich saturated color. Use directional pencil strokes that follow the form, transparent color mixing through many layers, soft blended gradients, crisp hand-drawn edges, and burnished areas where wax-based pigment is polished into a smooth luminous surface. Preserve clean highlights and tactile hand-drawn texture throughout the image.",
   },
 ];
+
+const ART_STYLE_CONTROL =
+  "Apply the chosen art style only to rendering, brushwork, color, texture, material surface, and background treatment. Keep the requested subject, species, anatomy, pose, clothing, facial identity, composition, and scene clearly recognizable and consistent.";
 
 function ImageTab() {
   const { D, Section, Sidebar, ChipPicker, PromptOutput, labelToEn } = window;
@@ -91,6 +94,7 @@ function ImageTab() {
 
     if (selectedArtStyle) {
       lines.push("[ART STYLE]");
+      lines.push(ART_STYLE_CONTROL);
       lines.push(selectedArtStyle.en);
     }
 
@@ -126,7 +130,7 @@ function ImageTab() {
             <h1>🎨 그림 생성 프롬프트</h1>
             <button className="btn-reset-top" onClick={reset} title="모든 선택을 초기화합니다">🔄 초기화</button>
           </div>
-          <p>수채화 아트 스타일이 기본으로 탑재된 그림 생성 프롬프트를 만듭니다.</p>
+          <p>선택한 아트 스타일을 반영한 그림 생성 프롬프트를 만듭니다.</p>
         </div>
 
         <Section id="i-input" title="1. 프롬프트 설정" hint="주제, 묘사, 빛, 카메라, 심도, 비율을 설정하세요.">
