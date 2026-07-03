@@ -364,7 +364,10 @@ function MusicTab() {
       <div className="content">
         <div className="tab-header">
           <div className="tab-header-row">
-            <h1>🎵 명상 & 치유 음악 생성</h1>
+            <h1 className="title-two-line">
+              <span>🎵 명상 & 치유</span>
+              <span>음악 생성</span>
+            </h1>
             <button className="btn-reset-top" onClick={reset} title="모든 선택을 초기화합니다">🔄 초기화</button>
           </div>
           <p>

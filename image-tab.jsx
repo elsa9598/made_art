@@ -188,7 +188,10 @@ function ImageTab() {
       <div className="content">
         <div className="tab-header">
           <div className="tab-header-row">
-            <h1>🎨 그림 생성 프롬프트</h1>
+            <h1 className="title-two-line">
+              <span>🎨 그림 생성</span>
+              <span>프롬프트</span>
+            </h1>
             <button className="btn-reset-top" onClick={reset} title="모든 선택을 초기화합니다">🔄 초기화</button>
           </div>
           <p>선택한 아트 스타일을 반영한 그림 생성 프롬프트를 만듭니다.</p>
